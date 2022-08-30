@@ -40,35 +40,12 @@ This is just a high-level description. See the [documentation](https://chrischow
 ## Background on agamotto
 This is the 3rd iteration of **agamotto**. The first was an options scanner built in Streamlit. I could identify trades with relatively good risk-to-reward ratio. However, these tickers did not produce a strong performance during paper trading because the underlying companies were relatively small and unstable, hence the high premiums and underestimated risk metrics. As I refined my strategy, I refined my toolkit.
 
-The second iteration of **agamotto** was a 100% Flask app. There was no frontend library/framework - I simply dumped JavaScript into the templates that required them. As I was new to JavaScript at the time, my code was not particularly elegant, and the frontend code base was poorly organised. Another implication from being a JS newbie was that I found myself tweaking the backend to match what the frontend needed as closely as possible. This inevitably resulted in having to write less JavaScript code. However, V2 was still useful because it (1) taught me that the frontend experience is extremely important, (2) showed me that I needed to improve in frontend development, and (3) enabled me to discover app features that I now think are useful.
+The second iteration of **agamotto** was a 100% Flask app. There was no frontend library/framework - I simply dumped JavaScript into the templates that required them. As I was new to JavaScript at the time, my code was not particularly elegant, and the frontend code base was poorly organised. Another implication from being a JS newbie was that I found myself tweaking the backend to match what the frontend needed as closely as possible. This inevitably resulted in a messy backend, all just so that I could write less JavaScript. However, V2 was still useful because it (1) taught me that the frontend experience is extremely important, (2) showed me that I needed to improve in frontend development, and (3) enabled me to discover app features that I now think are useful.
 
 This time, I'm coming back to the project armed with a new skillset: React. I picked up React earlier this year and developed several [single-page applications (SPAs)](https://github.com/chrischow?tab=repositories&q=react&type=&language=&sort=). I will re-build **agamotto** with a React frontend and Flask backend (API only).
 
 ## Future Work
-- Deployment:
-    - [ ] Push container to Docker Hub
-    - [ ] Set up GitHub Actions for CI
-    - [ ] Develop **agamotto** cloud
-- Admin:
-    - [ ] Consider [Flask-Dance](https://flask-dance.readthedocs.io/en/latest/multi-user.html) for OAuth
-- Dashboard:
-    - TBC
-- Monitor:
-    - TBC
-- Manage:
-    - [ ] Upload CSV function - needs validation of dataframe
-- Scan:
-    - [ ] Enable creation of presets
-- Analyse:
-    - TBC
-- Documentation:
-    - Re-factor docs to installation + deployment for different platforms
-        - [ ] Google App Engine (using containers)
-        - [ ] Heroku
-        - [ ] PythonAnywhere
-- Publicity:
-    - [ ] Launch on Reddit
-    - [ ] Article on Medium.com
+TBC.
 
 ## About the Project
 **agamotto** is © 2022 by Christian Chow.
