@@ -37,8 +37,8 @@ export class OptionTrade {
   @Column({ type: 'float' })
   openPrice: number
 
-  @Column({ type: 'float' })
-  closePrice: number
+  @Column({ type: 'float', nullable: true })
+  closePrice?: number
 
   @Column({ type: 'varchar', nullable: true })
   remarks?: string

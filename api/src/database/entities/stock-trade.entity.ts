@@ -28,10 +28,10 @@ export class StockTrade {
   @Column({ type: 'float' })
   openPrice: number
 
-  @Column({ type: 'float' })
-  closePrice: number
+  @Column({ type: 'float', nullable: true })
+  closePrice?: number
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   remarks?: string
 
   @ManyToOne(() => Strategy, (strategy) => strategy.stockTrades)
