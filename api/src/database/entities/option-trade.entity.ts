@@ -50,12 +50,12 @@ export class OptionTrade {
   @Column({ type: 'uuid' })
   strategyId: string
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @CreateDateColumn({ type: 'timestamptz', select: false })
   createdAt: Date
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @UpdateDateColumn({ type: 'timestamptz', select: false })
   updatedAt: Date
 
-  @DeleteDateColumn({ type: 'timestamptz' })
+  @DeleteDateColumn({ type: 'timestamptz', select: false })
   deletedAt?: Date
 }
