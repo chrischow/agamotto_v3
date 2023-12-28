@@ -20,7 +20,7 @@ export const schema: Schema<ConfigSchema> = {
     port: {
       env: 'PORT',
       format: 'int',
-      default: 3000,
+      default: 10000,
     },
     domain: {
       env: 'DOMAIN',
