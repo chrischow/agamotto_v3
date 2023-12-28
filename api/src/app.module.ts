@@ -9,6 +9,7 @@ import { baseConfig } from './database/dbConfig'
 import { HealthModule } from './health/health.module'
 import { SessionMiddleware } from './middleware/session.middleware'
 import { OptionTradesModule } from './option-trades/option-trades.module'
+import { StockTradesModule } from './stock-trades/stock-trades.module'
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { OptionTradesModule } from './option-trades/option-trades.module'
     HealthModule,
     AuthModule,
     OptionTradesModule,
+    StockTradesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
