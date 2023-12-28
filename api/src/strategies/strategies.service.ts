@@ -59,27 +59,6 @@ export class StrategiesService {
         id: true,
         name: true,
         description: true,
-        optionTrades: {
-          id: true,
-          ticker: true,
-          instrument: true,
-          quantity: true,
-          position: true,
-          expiry: true,
-          openPrice: true,
-          closePrice: true,
-          strike: true,
-          remarks: true,
-        },
-        stockTrades: {
-          id: true,
-          ticker: true,
-          quantity: true,
-          position: true,
-          openPrice: true,
-          closePrice: true,
-          remarks: true,
-        },
       },
     })
   }

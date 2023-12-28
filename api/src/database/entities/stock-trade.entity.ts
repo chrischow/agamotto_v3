@@ -28,10 +28,10 @@ export class StockTrade {
   @Column({ type: 'float' })
   openPrice: number
 
-  @Column({ type: 'float' })
-  closePrice: number
+  @Column({ type: 'float', nullable: true })
+  closePrice?: number
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   remarks?: string
 
   @ManyToOne(() => Strategy, (strategy) => strategy.stockTrades)
@@ -41,12 +41,12 @@ export class StockTrade {
   @Column({ type: 'uuid' })
   strategyId: string
 
-  @CreateDateColumn({ type: 'timestamptz' })
+  @CreateDateColumn({ type: 'timestamptz', select: false })
   createdAt: Date
 
-  @UpdateDateColumn({ type: 'timestamptz' })
+  @UpdateDateColumn({ type: 'timestamptz', select: false })
   updatedAt: Date
 
-  @DeleteDateColumn({ type: 'timestamptz' })
+  @DeleteDateColumn({ type: 'timestamptz', select: false })
   deletedAt?: Date
 }

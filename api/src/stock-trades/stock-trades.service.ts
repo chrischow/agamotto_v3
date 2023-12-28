@@ -5,6 +5,7 @@ import { Repository } from 'typeorm'
 import { StockTrade } from '../database/entities/stock-trade.entity'
 import {
   CreateStockTradeDto,
+  StockTradeDetail,
   UpdateStockTradeDto,
 } from '../dto/stock-trade.dto'
 
@@ -21,7 +22,9 @@ export class StockTradesService {
   }
 
   // Get all for strategy
-  async getAllStockTradesForStrategy(strategyId: string) {
+  async getAllStockTradesForStrategy(
+    strategyId: string,
+  ): Promise<StockTradeDetail[]> {
     return await this.stockTradeRepo.find({ where: { strategyId } })
   }
 

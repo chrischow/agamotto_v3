@@ -1,8 +1,8 @@
 import {
-  IsCurrency,
   IsDateString,
   IsIn,
   IsInt,
+  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator'
@@ -23,15 +23,17 @@ export class CreateOptionTradeDto {
   @IsDateString()
   expiry: string
 
-  @IsCurrency()
+  @IsNumber()
   openPrice: number
 
-  @IsCurrency()
-  closePrice: number
+  @IsOptional()
+  @IsNumber()
+  closePrice?: number
 
-  @IsCurrency()
+  @IsNumber()
   strike: number
 
+  @IsOptional()
   @IsString()
   remarks?: string
 }
@@ -58,17 +60,18 @@ export class UpdateOptionTradeDto extends CreateOptionTradeDto {
   expiry: string
 
   @IsOptional()
-  @IsCurrency()
+  @IsNumber()
   openPrice: number
 
   @IsOptional()
-  @IsCurrency()
+  @IsNumber()
   closePrice: number
 
   @IsOptional()
-  @IsCurrency()
+  @IsNumber()
   strike: number
 
+  @IsOptional()
   @IsString()
   remarks?: string
 }
@@ -81,7 +84,7 @@ export interface OptionTradeDetail {
   position: string
   expiry: Date
   openPrice: number
-  closePrice: number
+  closePrice?: number
   strike: number
   remarks?: string
 }
