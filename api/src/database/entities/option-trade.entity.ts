@@ -40,7 +40,7 @@ export class OptionTrade {
   @Column({ type: 'float' })
   closePrice: number
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   remarks?: string
 
   @ManyToOne(() => Strategy, (strategy) => strategy.optionTrades)
