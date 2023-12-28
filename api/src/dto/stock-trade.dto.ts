@@ -1,4 +1,4 @@
-import { IsCurrency, IsIn, IsInt, IsOptional, IsString } from 'class-validator'
+import { IsIn, IsInt, IsNumber, IsOptional, IsString } from 'class-validator'
 
 export class CreateStockTradeDto {
   @IsString()
@@ -10,12 +10,14 @@ export class CreateStockTradeDto {
   @IsIn(['LONG', 'SHORT'])
   position: string
 
-  @IsCurrency()
+  @IsNumber()
   openPrice: number
 
-  @IsCurrency()
-  closePrice: number
+  @IsOptional()
+  @IsNumber()
+  closePrice?: number
 
+  @IsOptional()
   @IsString()
   remarks?: string
 }
@@ -34,11 +36,10 @@ export class UpdateStockTradeDto {
   position: string
 
   @IsOptional()
-  @IsCurrency()
+  @IsNumber()
   openPrice: number
 
-  @IsOptional()
-  @IsCurrency()
+  @IsNumber()
   closePrice: number
 
   @IsString()
@@ -51,6 +52,6 @@ export interface StockTradeDetail {
   quantity: number
   position: string
   openPrice: number
-  closePrice: number
+  closePrice?: number
   remarks?: string
 }
