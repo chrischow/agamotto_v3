@@ -8,8 +8,11 @@ module.exports = {
     'jest.config.ts',
     'vite.config.ts',
     '.eslintrc.js',
+    'vite-env.d.ts',
   ],
+  plugins: ['react-refresh'],
   root: true,
+  parser: '@typescript-eslint/parser',
   overrides: [
     {
       files: ['*.ts'],
@@ -17,7 +20,19 @@ module.exports = {
     },
     {
       files: ['frontend/**/*.ts', '*.tsx'],
-      extends: ['opengovsg', 'opengovsg/react'],
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:react-hooks/recommended',
+      ],
+      parser: '@typescript-eslint/parser',
+      plugins: ['react-refresh'],
+      rules: {
+        'react-refresh/only-export-components': [
+          'warn',
+          { allowConstantExport: true },
+        ],
+      },
     },
     {
       files: ['frontend/**/*.js', '*.jsx'],
