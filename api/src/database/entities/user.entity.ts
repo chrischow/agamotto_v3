@@ -1,6 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm'
 
-@Entity()
+import { Strategy } from './strategy.entity'
+
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string
@@ -10,4 +20,16 @@ export class User {
 
   @Column({ type: 'varchar', length: 255 })
   password: string
+
+  @OneToMany(() => Strategy, (strategy) => strategy.user)
+  strategies: Strategy[]
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: Date
+
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updatedAt: Date
+
+  @DeleteDateColumn({ type: 'timestamptz' })
+  deletedAt?: Date
 }
