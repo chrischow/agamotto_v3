@@ -16,6 +16,6 @@ export const baseConfig: DataSourceOptions = {
   password: config.get('db.password'),
   database: config.get('db.name'),
   entities: [join(__dirname, 'entities', '*.entity{.js,.ts}')],
-  // subscribers: [join(__dirname, 'subscribers', '*.subscriber{.js,.ts}')],
+  subscribers: [join(__dirname, 'subscribers', '*.subscriber{.js,.ts}')],
   synchronize: config.get('app.environment') !== 'production',
 }
