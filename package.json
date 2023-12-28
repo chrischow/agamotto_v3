@@ -1,0 +1,42 @@
+{
+  "name": "agamotto_v3",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">     <img src=\"./docs/images/agamotto_with_word.png\"> </p>",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "on-api": "npm --prefix api run",
+    "on-frontend": "npm --prefix frontend run",
+    "dev:docker": "docker-compose up",
+    "lint": "eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@pulumi/eslint-plugin": "^0.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "eslint": "^8.56.0",
+    "eslint-config-opengovsg": "^2.0.6",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jest": "^27.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.0",
+    "prettier": "^2.8.8",
+    "prettier-eslint": "^16.2.0"
+  },
+  "lint-staged": {
+    "**/*.(js|jsx|ts|tsx)": [
+      "eslint --fix"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:15.3
+    container_name: agamotto-db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=agamotto
+    ports:
+      - "5432:5432"
+    volumes:
+      - agamotto-pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-q",
+          "-d",
+          "postgres",
+          "-U",
+          "postgres"
+        ]
+      interval: 5s
+      timeout: 2s
+      retries: 10
+volumes:
+  agamotto-pg-data:
