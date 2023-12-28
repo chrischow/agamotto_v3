@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { StockTrade } from 'src/database/entities/stock-trade.entity'
 
+import { StockTrade } from '../database/entities/stock-trade.entity'
 import { StockTradesService } from './stock-trades.service'
 
 @Module({

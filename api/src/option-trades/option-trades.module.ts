@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { OptionTrade } from 'src/database/entities/option-trade.entity'
 
+import { OptionTrade } from '../database/entities/option-trade.entity'
 import { OptionTradesService } from './option-trades.service'
 
 @Module({
