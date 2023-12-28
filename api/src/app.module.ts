@@ -8,6 +8,7 @@ import { ConfigModule } from './config/config.module'
 import { baseConfig } from './database/dbConfig'
 import { HealthModule } from './health/health.module'
 import { SessionMiddleware } from './middleware/session.middleware'
+import { OptionTradesModule } from './option-trades/option-trades.module'
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { SessionMiddleware } from './middleware/session.middleware'
     }),
     HealthModule,
     AuthModule,
+    OptionTradesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
