@@ -40,3 +40,13 @@ export interface GetStrategyResponseDto {
   optionTrades: OptionTradeDetail[]
   stockTrades: StockTradeDetail[]
 }
+
+export interface GetOptionTradesForStrategyResponseDto {
+  id: string
+  optionTrades: OptionTradeDetail[]
+}
+
+export interface GetStockTradesForStrategyResponseDto {
+  id: string
+  stockTrades: StockTradeDetail[]
+}
