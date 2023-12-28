@@ -32,7 +32,8 @@ export class OptionTradesService {
 
   // Update
   async updateOptionTrade(dto: UpdateOptionTradeDto) {
-    await this.optionTradeRepo.insert(dto)
+    const { id, ...optionTrade } = dto
+    await this.optionTradeRepo.update({ id }, optionTrade)
   }
 
   // Delete
