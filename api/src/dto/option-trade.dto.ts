@@ -3,8 +3,8 @@ import {
   IsDateString,
   IsIn,
   IsInt,
+  IsOptional,
   IsString,
-  IsUUID,
 } from 'class-validator'
 
 export class CreateOptionTradeDto {
@@ -36,33 +36,38 @@ export class CreateOptionTradeDto {
   remarks?: string
 }
 
-export class UpdateOptionTradeDto {
-  @IsUUID()
-  id: string
-
+export class UpdateOptionTradeDto extends CreateOptionTradeDto {
+  @IsOptional()
   @IsString()
-  ticker?: string
+  ticker: string
 
+  @IsOptional()
   @IsIn(['PUT', 'CALL'])
-  instrument?: string
+  instrument: string
 
+  @IsOptional()
   @IsInt()
-  quantity?: number
+  quantity: number
 
+  @IsOptional()
   @IsIn(['LONG', 'SHORT'])
-  position?: string
+  position: string
 
+  @IsOptional()
   @IsDateString()
-  expiry?: string
+  expiry: string
 
+  @IsOptional()
   @IsCurrency()
-  openPrice?: number
+  openPrice: number
 
+  @IsOptional()
   @IsCurrency()
-  closePrice?: number
+  closePrice: number
 
+  @IsOptional()
   @IsCurrency()
-  strike?: number
+  strike: number
 
   @IsString()
   remarks?: string
