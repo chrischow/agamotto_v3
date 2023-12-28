@@ -22,7 +22,7 @@ export class Strategy {
   @Column({ type: 'varchar', length: 255 })
   name: string
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   description?: string
 
   @OneToMany(() => OptionTrade, (optionTrade) => optionTrade.strategy)

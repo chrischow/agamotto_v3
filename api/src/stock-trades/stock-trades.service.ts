@@ -31,9 +31,8 @@ export class StockTradesService {
   }
 
   // Update
-  async updateStockTrade(dto: UpdateStockTradeDto) {
-    const { id, ...stockTrade } = dto
-    await this.stockTradeRepo.update({ id }, stockTrade)
+  async updateStockTrade(id: string, dto: UpdateStockTradeDto) {
+    await this.stockTradeRepo.update({ id }, dto)
   }
 
   // Delete

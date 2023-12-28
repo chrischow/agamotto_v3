@@ -10,6 +10,7 @@ import { HealthModule } from './health/health.module'
 import { SessionMiddleware } from './middleware/session.middleware'
 import { OptionTradesModule } from './option-trades/option-trades.module'
 import { StockTradesModule } from './stock-trades/stock-trades.module'
+import { StrategiesModule } from './strategies/strategies.module'
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { StockTradesModule } from './stock-trades/stock-trades.module'
     AuthModule,
     OptionTradesModule,
     StockTradesModule,
+    StrategiesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
