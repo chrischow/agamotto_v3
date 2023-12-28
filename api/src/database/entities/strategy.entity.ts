@@ -3,6 +3,8 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -10,6 +12,7 @@ import {
 
 import { OptionTrade } from './option-trade.entity'
 import { StockTrade } from './stock-trade.entity'
+import { User } from './user.entity'
 
 @Entity()
 export class Strategy {
@@ -27,6 +30,13 @@ export class Strategy {
 
   @OneToMany(() => StockTrade, (stockTrade) => stockTrade.strategy)
   stockTrades: StockTrade[]
+
+  @ManyToOne(() => User, (user) => user.strategies)
+  @JoinColumn({ name: 'userId' })
+  user: User
+
+  @Column({ type: 'uuid' })
+  userId: string
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date

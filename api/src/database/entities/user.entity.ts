@@ -8,8 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
-import { OptionTrade } from './option-trade.entity'
-import { StockTrade } from './stock-trade.entity'
+import { Strategy } from './strategy.entity'
 
 @Entity({ name: 'users' })
 export class User {
@@ -22,11 +21,8 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   password: string
 
-  @OneToMany(() => OptionTrade, (optionTrade) => optionTrade.user)
-  optionTrades: OptionTrade[]
-
-  @OneToMany(() => StockTrade, (stockTrade) => stockTrade.user)
-  stockTrades: StockTrade[]
+  @OneToMany(() => Strategy, (strategy) => strategy.user)
+  strategies: Strategy[]
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date

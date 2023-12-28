@@ -10,7 +10,6 @@ import {
 } from 'typeorm'
 
 import { Strategy } from './strategy.entity'
-import { User } from './user.entity'
 
 @Entity({ name: 'stock_trades' })
 export class StockTrade {
@@ -34,13 +33,6 @@ export class StockTrade {
 
   @Column({ type: 'varchar' })
   remarks?: string
-
-  @ManyToOne(() => User, (user) => user.stockTrades)
-  @JoinColumn({ name: 'userId' })
-  user: User
-
-  @Column({ type: 'uuid' })
-  userId: string
 
   @ManyToOne(() => Strategy, (strategy) => strategy.stockTrades)
   @JoinColumn({ name: 'strategyId' })
