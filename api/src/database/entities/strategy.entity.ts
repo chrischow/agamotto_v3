@@ -11,21 +11,21 @@ import {
 import { OptionTrade } from './option-trade.entity'
 import { StockTrade } from './stock-trade.entity'
 
-@Entity({ name: 'users' })
-export class User {
+@Entity()
+export class Strategy {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column({ type: 'varchar', length: 255, unique: true })
-  email: string
-
   @Column({ type: 'varchar', length: 255 })
-  password: string
+  name: string
 
-  @OneToMany(() => OptionTrade, (optionTrade) => optionTrade.user)
+  @Column({ type: 'varchar' })
+  description?: string
+
+  @OneToMany(() => OptionTrade, (optionTrade) => optionTrade.strategy)
   optionTrades: OptionTrade[]
 
-  @OneToMany(() => StockTrade, (stockTrade) => stockTrade.user)
+  @OneToMany(() => StockTrade, (stockTrade) => stockTrade.strategy)
   stockTrades: StockTrade[]
 
   @CreateDateColumn({ type: 'timestamptz' })
