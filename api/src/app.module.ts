@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
+import { AuthModule } from './auth/auth.module'
 import { ConfigModule } from './config/config.module'
 import { baseConfig } from './database/dbConfig'
 import { HealthModule } from './health/health.module'
@@ -15,6 +16,7 @@ import { SessionMiddleware } from './middleware/session.middleware'
       useFactory: () => baseConfig,
     }),
     HealthModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
