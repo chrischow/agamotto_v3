@@ -67,3 +67,16 @@ export class UpdateOptionTradeDto {
   @IsString()
   remarks?: string
 }
+
+export interface OptionTradeDetail {
+  id: string
+  ticker: string
+  instrument: string
+  quantity: number
+  position: string
+  expiry: Date
+  openPrice: number
+  closePrice: number
+  strike: number
+  remarks?: string
+}

@@ -49,3 +49,13 @@ export class UpdateStockTradeDto {
   @IsString()
   remarks?: string
 }
+
+export interface StockTradeDetail {
+  id: string
+  ticker: string
+  quantity: number
+  position: string
+  openPrice: number
+  closePrice: number
+  remarks?: string
+}
