@@ -28,6 +28,7 @@ export class StrategiesService {
         id: true,
         name: true,
         description: true,
+        createdAt: true,
         optionTrades: {
           id: true,
         },
@@ -35,17 +36,22 @@ export class StrategiesService {
           id: true,
         },
       },
+      order: {
+        createdAt: 'DESC',
+      },
     })
 
     return {
       strategies: allStrategies.map((strategy) => {
-        const { id, name, description, optionTrades, stockTrades } = strategy
+        const { id, name, description, createdAt, optionTrades, stockTrades } =
+          strategy
         return {
           id,
           name,
           description,
           numOptionTrades: optionTrades.length,
           numStockTrades: stockTrades.length,
+          createdAt: createdAt.toISOString(),
         }
       }),
     }

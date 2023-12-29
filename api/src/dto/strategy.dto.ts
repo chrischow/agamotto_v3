@@ -27,6 +27,7 @@ export interface StrategySummaryResponse {
   description?: string
   numOptionTrades: number
   numStockTrades: number
+  createdAt: string
 }
 
 export interface GetAllStrategiesResponseDto {
