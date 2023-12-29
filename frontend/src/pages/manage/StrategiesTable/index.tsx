@@ -53,7 +53,7 @@ const columns = [
   }),
   columnHelper.accessor('createdAt', {
     cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
-    header: 'Stock Trades',
+    header: 'Created',
   }),
 ]
 
