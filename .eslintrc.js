@@ -15,7 +15,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   overrides: [
     {
-      files: ['*.ts'],
+      files: ['api/**/*.ts'],
       extends: ['opengovsg'],
     },
     {
@@ -32,6 +32,7 @@ module.exports = {
           'warn',
           { allowConstantExport: true },
         ],
+        '@typescript-eslint/no-empty-function': 'off',
       },
     },
     {
