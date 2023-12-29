@@ -34,11 +34,23 @@ export class OptionTrade {
   @Column({ type: 'float' })
   strike: number
 
+  @Column({ type: 'timestamptz' })
+  openDate: Date
+
   @Column({ type: 'float' })
   openPrice: number
 
+  @Column({ type: 'float' })
+  openDelta: number
+
+  @Column({ type: 'timestamptz', nullable: true })
+  closeDate?: Date
+
   @Column({ type: 'float', nullable: true })
   closePrice?: number
+
+  @Column({ type: 'float', nullable: true })
+  closeDelta?: number
 
   @Column({ type: 'varchar', nullable: true })
   remarks?: string

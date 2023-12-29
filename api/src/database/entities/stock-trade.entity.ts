@@ -28,8 +28,14 @@ export class StockTrade {
   @Column({ type: 'float' })
   openPrice: number
 
+  @Column({ type: 'timestamptz' })
+  openDate: Date
+
   @Column({ type: 'float', nullable: true })
   closePrice?: number
+
+  @Column({ type: 'timestamptz', nullable: true })
+  closeDate?: Date
 
   @Column({ type: 'varchar', nullable: true })
   remarks?: string
