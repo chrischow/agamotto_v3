@@ -8,6 +8,7 @@ import {
   OptionTradeDetail,
   UpdateOptionTradeDto,
 } from '../dto/option-trade.dto'
+import { computeOptionTradesStats } from './option-trades.utils'
 
 @Injectable()
 export class OptionTradesService {
@@ -41,5 +42,9 @@ export class OptionTradesService {
   // Delete
   async deleteOptionTrade(id: string) {
     await this.optionTradeRepo.softRemove({ id })
+  }
+
+  computeOptionTradesStats(trades: OptionTrade[]) {
+    return computeOptionTradesStats(trades)
   }
 }

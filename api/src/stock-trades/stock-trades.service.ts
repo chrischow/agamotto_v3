@@ -8,6 +8,7 @@ import {
   StockTradeDetail,
   UpdateStockTradeDto,
 } from '../dto/stock-trade.dto'
+import { computeStockTradesStats } from './stock-trades.utils'
 
 @Injectable()
 export class StockTradesService {
@@ -41,5 +42,9 @@ export class StockTradesService {
   // Delete
   async deleteStockTrade(id: string) {
     await this.stockTradeRepo.softRemove({ id })
+  }
+
+  computeStockTradesStats(trades: StockTrade[]) {
+    return computeStockTradesStats(trades)
   }
 }
