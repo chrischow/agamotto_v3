@@ -3,6 +3,7 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import ProtectedPage from '../components/ProtectedPage'
+import LoginPage from '../pages/Login'
 import Providers from './Providers'
 
 function App() {
@@ -10,7 +11,7 @@ function App() {
     <Providers>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={'login page'} />
+          <Route path="/login" element={<LoginPage />} />
           {/* <Route element={'navbar'}> */}
           <Route
             path="/"
