@@ -8,46 +8,32 @@ import {
   ModalHeader,
   ModalOverlay,
   ResponsiveValue,
-  useDisclosure,
 } from '@chakra-ui/react'
 import { ReactElement } from 'react'
 
 const CustomModal = ({
   modalSize = 'lg',
-  openButtonText,
-  openButtonColorScheme,
-  openButtonVariant,
-  leftIcon,
   title,
   primaryText,
   secondaryText,
   primaryAction,
   secondaryAction,
   bodyElement,
+  isOpen,
+  onClose,
 }: {
   modalSize: ResponsiveValue<string>
-  openButtonText: string
-  openButtonColorScheme: string
-  openButtonVariant: ResponsiveValue<string>
-  leftIcon: ReactElement
   title: string
   primaryText: string
   secondaryText: string
   primaryAction: () => void
   secondaryAction?: () => void
   bodyElement: ReactElement
+  isOpen: boolean
+  onClose: () => void
 }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
-      <Button
-        leftIcon={leftIcon}
-        onClick={onOpen}
-        colorScheme={openButtonColorScheme}
-        variant={openButtonVariant}
-      >
-        {openButtonText}
-      </Button>
       <Modal isOpen={isOpen} onClose={onClose} isCentered size={modalSize}>
         <ModalOverlay />
         <ModalContent>
