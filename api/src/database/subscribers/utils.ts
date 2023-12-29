@@ -1,5 +1,7 @@
 import { EntityManager } from 'typeorm'
 
+import { computeOptionTradesStats } from '../../option-trades/option-trades.utils'
+import { computeStockTradesStats } from '../../stock-trades/stock-trades.utils'
 import { Account } from '../entities/account.entity'
 import { OptionTrade } from '../entities/option-trade.entity'
 import { StockTrade } from '../entities/stock-trade.entity'
@@ -54,33 +56,14 @@ export const recomputeAndSaveAccountStats = async (
     relations: { strategy: true },
   })
 
-  for (const optionTrade of allOptionTrades) {
-    const positionMultiplier = optionTrade.position === 'LONG' ? 1 : -1
-    const isPutOption = optionTrade.instrument === 'PUT'
-    if (
-      optionTrade.closePrice === undefined ||
-      optionTrade.closePrice === null
-    ) {
-      account.openOptionsProfit -=
-        optionTrade.openPrice * optionTrade.quantity * 100 * positionMultiplier
-      if (isPutOption) {
-        account.numberOfOpenPutTrades += 1
-      } else {
-        account.numberOfOpenCallTrades += 1
-      }
-    } else {
-      account.realisedOptionsProfit +=
-        (optionTrade.closePrice - optionTrade.openPrice) *
-        optionTrade.quantity *
-        100 *
-        positionMultiplier
-      if (isPutOption) {
-        account.numberOfClosedPutTrades += 1
-      } else {
-        account.numberOfClosedCallTrades += 1
-      }
-    }
-  }
+  const {
+    openOptionsProfit,
+    realisedOptionsProfit,
+    numberOfOpenPutTrades,
+    numberOfClosedPutTrades,
+    numberOfOpenCallTrades,
+    numberOfClosedCallTrades,
+  } = computeOptionTradesStats(allOptionTrades)
 
   // Process stock trades
   const allStockTrades = await stockTradeRepo.find({
@@ -88,21 +71,24 @@ export const recomputeAndSaveAccountStats = async (
     relations: { strategy: true },
   })
 
-  for (const stockTrade of allStockTrades) {
-    const positionMultiplier = stockTrade.position === 'LONG' ? 1 : -1
+  const {
+    openStocksPosition,
+    realisedStocksProfit,
+    numberOfOpenStockTrades,
+    numberOfClosedStockTrades,
+  } = computeStockTradesStats(allStockTrades)
 
-    if (stockTrade.closePrice === undefined || stockTrade.closePrice === null) {
-      account.openStocksPosition -=
-        stockTrade.openPrice * stockTrade.quantity * positionMultiplier
-      account.numberOfOpenStockTrades += 1
-    } else {
-      account.realisedStocksProfit +=
-        (stockTrade.closePrice - stockTrade.openPrice) *
-        stockTrade.quantity *
-        positionMultiplier
-      account.numberOfClosedStockTrades += 1
-    }
-  }
+  // Update account
+  account.openOptionsProfit = openOptionsProfit
+  account.realisedOptionsProfit = realisedOptionsProfit
+  account.numberOfOpenPutTrades = numberOfOpenPutTrades
+  account.numberOfClosedPutTrades = numberOfClosedPutTrades
+  account.numberOfOpenCallTrades = numberOfOpenCallTrades
+  account.numberOfClosedCallTrades = numberOfClosedCallTrades
+  account.openStocksPosition = openStocksPosition
+  account.realisedStocksProfit = realisedStocksProfit
+  account.numberOfOpenStockTrades = numberOfOpenStockTrades
+  account.numberOfClosedStockTrades = numberOfClosedStockTrades
 
   await accountRepo.save(account)
 }

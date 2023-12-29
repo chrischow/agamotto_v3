@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
+import { AccountModule } from './account/account.module'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { AuthModule } from './auth/auth.module'
@@ -23,6 +24,7 @@ import { StrategiesModule } from './strategies/strategies.module'
     OptionTradesModule,
     StockTradesModule,
     StrategiesModule,
+    AccountModule,
   ],
   controllers: [AppController],
   providers: [AppService],
