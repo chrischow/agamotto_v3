@@ -40,6 +40,6 @@ export class OptionTradesService {
 
   // Delete
   async deleteOptionTrade(id: string) {
-    await this.optionTradeRepo.softDelete({ id })
+    await this.optionTradeRepo.softRemove({ id })
   }
 }
