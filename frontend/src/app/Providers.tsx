@@ -3,12 +3,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactElement } from 'react'
 
 import { AuthProvider } from '../context/auth-context'
+import { theme } from '../theme/theme'
 
 const Providers = ({ children }: { children?: ReactElement }) => {
   const queryClient = new QueryClient()
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>{children}</AuthProvider>
       </QueryClientProvider>
