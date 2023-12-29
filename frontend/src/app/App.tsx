@@ -4,7 +4,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import ProtectedPage from '../components/ProtectedPage'
 import WithNav from '../components/WithNav'
-import LoginPage from '../pages/Login'
+import LoginPage from '../pages/login'
+import ManagePage from '../pages/manage'
 import Providers from './Providers'
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
             />
             <Route
               path="/manage"
-              element={<ProtectedPage element={<>manage trades</>} />}
+              element={<ProtectedPage element={<ManagePage />} />}
             />
             <Route path="*" element={<ProtectedPage element={<>404</>} />} />
           </Route>

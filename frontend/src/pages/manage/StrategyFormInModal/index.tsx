@@ -7,7 +7,7 @@ import { CreateStrategyRequestDto } from '../../../../../api/src/dto/strategy.dt
 import { createStrategy } from '../../../api/strategies'
 import CustomModal from '../../../components/CustomModal'
 
-const StrategyFormWithButton = () => {
+const StrategyFormInModal = () => {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
 
@@ -74,4 +74,4 @@ const StrategyFormWithButton = () => {
   )
 }
 
-export default StrategyFormWithButton
+export default StrategyFormInModal
