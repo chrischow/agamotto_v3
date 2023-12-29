@@ -11,14 +11,14 @@ export class CreateStrategyRequestDto {
   description: string
 }
 
-export class UpdateStrategyRequestDto extends CreateStrategyRequestDto {
+export class UpdateStrategyRequestDto {
   @IsOptional()
   @IsString()
-  name: string
+  name?: string
 
   @IsOptional()
   @IsString()
-  description: string
+  description?: string
 }
 
 export interface StrategySummaryResponse {
