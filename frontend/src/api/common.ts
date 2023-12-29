@@ -12,10 +12,10 @@ export const get = async (resource: string) => {
     .then((res) => res.data)
 }
 
-export const patch = async (resource: string, body: any) => {
+export const put = async (resource: string, body: any) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return await axios
-    .patch(`${BACKEND_PREFIX}/${resource}`, body)
+    .put(`${BACKEND_PREFIX}/${resource}`, body)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     .then((res) => res.data)
 }

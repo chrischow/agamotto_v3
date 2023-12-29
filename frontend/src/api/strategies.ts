@@ -2,8 +2,9 @@ import {
   CreateStrategyRequestDto,
   GetAllStrategiesResponseDto,
   GetStrategyResponseDto,
+  UpdateStrategyRequestDto,
 } from '../../../api/src/dto/strategy.dto'
-import { get, post } from './common'
+import { get, post, put } from './common'
 
 export const getAllStrategies =
   async (): Promise<GetAllStrategiesResponseDto> => {
@@ -18,4 +19,10 @@ export const getStrategy = async (
   strategyId: string,
 ): Promise<GetStrategyResponseDto> => {
   return await get(`strategies/${strategyId}`)
+}
+export const updateStrategy = async (
+  strategyId: string,
+  dto: UpdateStrategyRequestDto,
+) => {
+  return await put(`strategies/${strategyId}`, dto)
 }
