@@ -20,7 +20,10 @@ import {
   CreateOptionTradeDto,
   UpdateOptionTradeDto,
 } from '../dto/option-trade.dto'
-import { CreateStockTradeDto } from '../dto/stock-trade.dto'
+import {
+  CreateStockTradeDto,
+  UpdateStockTradeDto,
+} from '../dto/stock-trade.dto'
 import {
   CreateStrategyRequestDto,
   GetAllStrategiesResponseDto,
@@ -212,7 +215,7 @@ export class StrategiesController {
   @Put(':strategyId/stocks/:stockTradeId')
   async updateStockTrade(
     @Param('stockTradeId') stockTradeId: string,
-    @Body() dto: UpdateOptionTradeDto,
+    @Body() dto: UpdateStockTradeDto,
   ) {
     try {
       await this.stockTradesService.updateStockTrade(stockTradeId, dto)

@@ -23,12 +23,26 @@ export class CreateOptionTradeDto {
   @IsDateString()
   expiry: string
 
+  @IsDateString()
+  openDate: string
+
   @IsNumber()
   openPrice: number
+
+  @IsNumber()
+  openDelta: number
+
+  @IsOptional()
+  @IsDateString()
+  closeDate?: number
 
   @IsOptional()
   @IsNumber()
   closePrice?: number
+
+  @IsOptional()
+  @IsNumber()
+  closeDelta?: number
 
   @IsNumber()
   strike: number
@@ -38,38 +52,54 @@ export class CreateOptionTradeDto {
   remarks?: string
 }
 
-export class UpdateOptionTradeDto extends CreateOptionTradeDto {
+export class UpdateOptionTradeDto {
   @IsOptional()
   @IsString()
-  ticker: string
+  ticker?: string
 
   @IsOptional()
   @IsIn(['PUT', 'CALL'])
-  instrument: string
+  instrument?: string
 
   @IsOptional()
   @IsInt()
-  quantity: number
+  quantity?: number
 
   @IsOptional()
   @IsIn(['LONG', 'SHORT'])
-  position: string
+  position?: string
 
   @IsOptional()
   @IsDateString()
-  expiry: string
+  expiry?: string
+
+  @IsOptional()
+  @IsDateString()
+  openDate?: string
 
   @IsOptional()
   @IsNumber()
-  openPrice: number
+  openPrice?: number
 
   @IsOptional()
   @IsNumber()
-  closePrice: number
+  openDelta?: number
+
+  @IsOptional()
+  @IsDateString()
+  closeDate?: number
 
   @IsOptional()
   @IsNumber()
-  strike: number
+  closePrice?: number
+
+  @IsOptional()
+  @IsNumber()
+  closeDelta?: number
+
+  @IsOptional()
+  @IsNumber()
+  strike?: number
 
   @IsOptional()
   @IsString()
@@ -83,8 +113,12 @@ export interface OptionTradeDetail {
   quantity: number
   position: string
   expiry: Date
+  openDate: Date
   openPrice: number
+  openDelta: number
+  closeDate?: Date
   closePrice?: number
+  closeDelta?: number
   strike: number
   remarks?: string
 }
