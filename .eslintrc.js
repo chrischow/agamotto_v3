@@ -15,7 +15,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   overrides: [
     {
-      files: ['*.ts'],
+      files: ['api/**/*.ts'],
       extends: ['opengovsg'],
     },
     {
