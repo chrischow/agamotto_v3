@@ -34,7 +34,7 @@ export class CreateOptionTradeDto {
 
   @IsOptional()
   @IsDateString()
-  closeDate?: number
+  closeDate?: string
 
   @IsOptional()
   @IsNumber()
