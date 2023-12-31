@@ -3,6 +3,8 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  HStack,
+  Spacer,
   Tab,
   TabList,
   TabPanels,
@@ -23,6 +25,7 @@ import { OptionTradeDetail } from '../../../../../api/src/dto/option-trade.dto'
 import { StockTradeDetail } from '../../../../../api/src/dto/stock-trade.dto'
 import { UpdateStrategyRequestDto } from '../../../../../api/src/dto/strategy.dto'
 import { getStrategy, updateStrategy } from '../../../api/strategies'
+import AddLogMenu from './AddLogMenu'
 import { optionTradesTableColumns, stockTradesTableColumns } from './columnDefs'
 import EditableHeading from './EditableHeading'
 import EditableTextArea from './EditableTextArea'
@@ -151,10 +154,14 @@ const StrategyDetailPage = () => {
           </Box>
           <Box width="100%" mt={8}>
             <Tabs width="100%" colorScheme="purple" variant="soft-rounded">
-              <TabList>
-                <Tab>Options</Tab>
-                <Tab>Stock</Tab>
-              </TabList>
+              <HStack>
+                <TabList>
+                  <Tab>Options</Tab>
+                  <Tab>Stocks</Tab>
+                </TabList>
+                <Spacer />
+                {strategyId && <AddLogMenu strategyId={strategyId} />}
+              </HStack>
               <TabPanels>
                 <TradesPanel asset="Options" table={optionTradesTable} />
                 <TradesPanel asset="Stocks" table={stockTradesTable} />
