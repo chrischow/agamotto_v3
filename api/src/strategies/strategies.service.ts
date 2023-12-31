@@ -66,6 +66,16 @@ export class StrategiesService {
         name: true,
         description: true,
       },
+      order: {
+        optionTrades: {
+          openDate: 'DESC',
+          ticker: 'ASC',
+        },
+        stockTrades: {
+          openDate: 'DESC',
+          ticker: 'ASC',
+        },
+      },
     })
   }
 

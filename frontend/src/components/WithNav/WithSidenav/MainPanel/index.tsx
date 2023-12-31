@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 
 const MainPanel = ({ children }: { children: ReactNode }) => {
   return (
-    <Box height="100vh" width="100%">
+    <Box height="100vh" width="calc(100vw - 310px)">
       <Box py={8} px={12} height="100vh">
         {children}
       </Box>
