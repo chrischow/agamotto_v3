@@ -1,4 +1,4 @@
-import { Text } from '@chakra-ui/react'
+import { Tag, Text } from '@chakra-ui/react'
 import { createColumnHelper } from '@tanstack/react-table'
 import { format } from 'date-fns'
 
@@ -39,11 +39,22 @@ export const optionTradesTableColumns = [
   }),
   optionTradesTableColumnHelper.accessor('quantity', {
     cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
-    header: 'Quantity',
+    header: 'Qty',
   }),
   optionTradesTableColumnHelper.accessor('expiry', {
     cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
     header: 'Expiry',
+  }),
+  optionTradesTableColumnHelper.display({
+    cell: (info) => {
+      const row = info.row.original
+      if (row.closeDate && row.closePrice) {
+        return <Tag>Closed</Tag>
+      } else {
+        return <Tag colorScheme="teal">Open</Tag>
+      }
+    },
+    header: 'Status',
   }),
   optionTradesTableColumnHelper.accessor('openPrice', {
     cell: (info) => (
@@ -54,28 +65,6 @@ export const optionTradesTableColumns = [
   optionTradesTableColumnHelper.accessor('openDate', {
     cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
     header: 'Open Date',
-  }),
-  optionTradesTableColumnHelper.accessor('closePrice', {
-    cell: (info) => {
-      const cellValue = info.getValue()
-      if (cellValue) {
-        return <Text fontFamily="mono">${cellValue.toFixed()}</Text>
-      } else {
-        return ''
-      }
-    },
-    header: 'Close Price',
-  }),
-  optionTradesTableColumnHelper.accessor('closeDate', {
-    cell: (info) => {
-      const cellValue = info.getValue()
-      if (cellValue) {
-        return format(new Date(cellValue), 'd MMM yyyy')
-      } else {
-        return ''
-      }
-    },
-    header: 'Close Date',
   }),
 ]
 
@@ -97,13 +86,24 @@ export const stockTradesTableColumns = [
     cell: (info) => info.getValue(),
     header: 'Ticker',
   }),
-  stockTradesTableColumnHelper.accessor('quantity', {
-    cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
-    header: 'Quantity',
-  }),
   stockTradesTableColumnHelper.accessor('position', {
     cell: (info) => info.getValue(),
     header: 'Position',
+  }),
+  stockTradesTableColumnHelper.accessor('quantity', {
+    cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
+    header: 'Qty',
+  }),
+  stockTradesTableColumnHelper.display({
+    cell: (info) => {
+      const row = info.row.original
+      if (row.closeDate && row.closePrice) {
+        return <Tag>Closed</Tag>
+      } else {
+        return <Tag colorScheme="teal">Open</Tag>
+      }
+    },
+    header: 'Status',
   }),
   stockTradesTableColumnHelper.accessor('openPrice', {
     cell: (info) => (
@@ -114,27 +114,5 @@ export const stockTradesTableColumns = [
   stockTradesTableColumnHelper.accessor('openDate', {
     cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
     header: 'Open Date',
-  }),
-  stockTradesTableColumnHelper.accessor('closePrice', {
-    cell: (info) => {
-      const cellValue = info.getValue()
-      if (cellValue) {
-        return <Text fontFamily="mono">${cellValue.toFixed()}</Text>
-      } else {
-        return ''
-      }
-    },
-    header: 'Close Price',
-  }),
-  stockTradesTableColumnHelper.accessor('closeDate', {
-    cell: (info) => {
-      const cellValue = info.getValue()
-      if (cellValue) {
-        return format(new Date(cellValue), 'd MMM yyyy')
-      } else {
-        return ''
-      }
-    },
-    header: 'Close Date',
   }),
 ]

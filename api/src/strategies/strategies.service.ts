@@ -93,6 +93,7 @@ export class StrategiesService {
       },
       order: {
         optionTrades: {
+          expiry: 'DESC',
           openDate: 'DESC',
           ticker: 'ASC',
         },
