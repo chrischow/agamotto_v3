@@ -32,7 +32,9 @@ export const optionTradesTableColumns = [
     header: 'Instrument',
   }),
   optionTradesTableColumnHelper.accessor('strike', {
-    cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
+    cell: (info) => (
+      <Text fontFamily="mono">${info.getValue().toFixed(2)}</Text>
+    ),
     header: 'Strike',
   }),
   optionTradesTableColumnHelper.accessor('quantity', {
@@ -44,7 +46,9 @@ export const optionTradesTableColumns = [
     header: 'Expiry',
   }),
   optionTradesTableColumnHelper.accessor('openPrice', {
-    cell: (info) => <Text fontFamily="mono">${info.getValue()}</Text>,
+    cell: (info) => (
+      <Text fontFamily="mono">${info.getValue().toFixed(2)}</Text>
+    ),
     header: 'Open Price',
   }),
   optionTradesTableColumnHelper.accessor('openDate', {
@@ -55,7 +59,7 @@ export const optionTradesTableColumns = [
     cell: (info) => {
       const cellValue = info.getValue()
       if (cellValue) {
-        return <Text fontFamily="mono">${info.getValue()}</Text>
+        return <Text fontFamily="mono">${cellValue.toFixed()}</Text>
       } else {
         return ''
       }
@@ -102,7 +106,9 @@ export const stockTradesTableColumns = [
     header: 'Position',
   }),
   stockTradesTableColumnHelper.accessor('openPrice', {
-    cell: (info) => <Text fontFamily="mono">${info.getValue()}</Text>,
+    cell: (info) => (
+      <Text fontFamily="mono">${info.getValue().toFixed(2)}</Text>
+    ),
     header: 'Open Price',
   }),
   stockTradesTableColumnHelper.accessor('openDate', {
@@ -113,7 +119,7 @@ export const stockTradesTableColumns = [
     cell: (info) => {
       const cellValue = info.getValue()
       if (cellValue) {
-        return <Text fontFamily="mono">${info.getValue()}</Text>
+        return <Text fontFamily="mono">${cellValue.toFixed()}</Text>
       } else {
         return ''
       }
