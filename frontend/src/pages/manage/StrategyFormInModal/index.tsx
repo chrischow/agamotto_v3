@@ -45,12 +45,7 @@ const StrategyFormInModal = () => {
 
   return (
     <>
-      <Button
-        leftIcon={<IoMdAdd />}
-        onClick={onOpen}
-        colorScheme="purple"
-        variant="ghost"
-      >
+      <Button leftIcon={<IoMdAdd />} onClick={onOpen} colorScheme="purple">
         Create
       </Button>
       <CustomModal
