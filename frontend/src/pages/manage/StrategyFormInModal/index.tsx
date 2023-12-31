@@ -1,6 +1,7 @@
 import {
   Button,
   FormControl,
+  FormHelperText,
   FormLabel,
   Input,
   Text,
@@ -45,12 +46,7 @@ const StrategyFormInModal = () => {
 
   return (
     <>
-      <Button
-        leftIcon={<IoMdAdd />}
-        onClick={onOpen}
-        colorScheme="purple"
-        variant="ghost"
-      >
+      <Button leftIcon={<IoMdAdd />} onClick={onOpen} colorScheme="purple">
         Create
       </Button>
       <CustomModal
@@ -68,19 +64,19 @@ const StrategyFormInModal = () => {
               (e.g. Iron Condor). You must create a strategy in order to log
               trades.
             </Text>
-            <FormControl mt={8}>
+            <FormControl mt={8} isRequired>
               <FormLabel>Name Your Strategy</FormLabel>
               <Input type="text" value={name} onChange={handleNameChange} />
             </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>
-                Describe it e.g. the underlying asset, frequency, some
-                principles
-              </FormLabel>
+            <FormControl mt={4} isRequired>
+              <FormLabel>Describe it</FormLabel>
               <Textarea
                 value={description}
                 onChange={handleDescriptionChange}
               />
+              <FormHelperText>
+                For example: the underlying asset, frequency, some principles
+              </FormHelperText>
             </FormControl>
           </>
         }

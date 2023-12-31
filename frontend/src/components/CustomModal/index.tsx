@@ -18,6 +18,7 @@ const CustomModal = ({
   secondaryText,
   primaryAction,
   secondaryAction,
+  primaryActionColorScheme = 'purple',
   bodyElement,
   isOpen,
   onClose,
@@ -28,6 +29,7 @@ const CustomModal = ({
   secondaryText: string
   primaryAction: () => void
   secondaryAction?: () => void
+  primaryActionColorScheme?: string
   bodyElement: ReactElement
   isOpen: boolean
   onClose: () => void
@@ -54,7 +56,7 @@ const CustomModal = ({
               {secondaryText}
             </Button>
             <Button
-              colorScheme="purple"
+              colorScheme={primaryActionColorScheme}
               onClick={() => {
                 onClose()
                 primaryAction()

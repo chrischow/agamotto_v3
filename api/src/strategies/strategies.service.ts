@@ -41,20 +41,45 @@ export class StrategiesService {
       },
     })
 
-    return {
-      strategies: allStrategies.map((strategy) => {
-        const { id, name, description, createdAt, optionTrades, stockTrades } =
-          strategy
-        return {
-          id,
-          name,
-          description,
-          numOptionTrades: optionTrades.length,
-          numStockTrades: stockTrades.length,
-          createdAt: createdAt.toISOString(),
+    const strategies = allStrategies.map((strategy) => {
+      const { id, name, description, createdAt, optionTrades, stockTrades } =
+        strategy
+      let optionsProfit = 0
+      for (const optionTrade of optionTrades) {
+        const positionMultiplier = optionTrade.position === 'LONG' ? 1 : -1
+        if (optionTrade.closeDate && optionTrade.closePrice) {
+          optionsProfit +=
+            (optionTrade.closePrice - optionTrade.openPrice) *
+            positionMultiplier *
+            optionTrade.quantity *
+            100
         }
-      }),
-    }
+      }
+
+      let stocksProfit = 0
+      for (const stockTrade of stockTrades) {
+        const positionMultiplier = stockTrade.position === 'LONG' ? 1 : -1
+        if (stockTrade.closeDate && stockTrade.closePrice) {
+          stocksProfit +=
+            (stockTrade.closePrice - stockTrade.openPrice) *
+            positionMultiplier *
+            stockTrade.quantity
+        }
+      }
+
+      return {
+        id,
+        name,
+        description,
+        numOptionTrades: optionTrades.length,
+        numStockTrades: stockTrades.length,
+        optionsProfit,
+        stocksProfit,
+        createdAt: createdAt.toISOString(),
+      }
+    })
+
+    return { strategies }
   }
 
   async getStrategy(strategyId: string): Promise<GetStrategyResponseDto> {

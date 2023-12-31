@@ -20,9 +20,16 @@ export const strategiesTableColumns = [
     ),
     header: 'Name',
   }),
-  columnHelper.accessor('description', {
-    cell: (info) => info.getValue(),
-    header: 'Description',
+  columnHelper.display({
+    cell: (info) => (
+      <Text fontFamily="mono">
+        $
+        {(
+          info.row.original.optionsProfit + info.row.original.stocksProfit
+        ).toFixed(2)}
+      </Text>
+    ),
+    header: 'Total Profit',
   }),
   columnHelper.accessor('numOptionTrades', {
     cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
