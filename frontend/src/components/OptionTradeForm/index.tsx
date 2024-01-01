@@ -47,15 +47,7 @@ const OptionTradeForm = ({
         </FormControl>
         <FormControl>
           <FormLabel>Quantity</FormLabel>
-          <NumberInput
-            defaultValue={
-              defaultValues && defaultValues.quantity
-                ? defaultValues.quantity
-                : -1
-            }
-            step={1}
-            focusBorderColor="purple.400"
-          >
+          <NumberInput defaultValue={0} step={1} focusBorderColor="purple.400">
             <NumberInputField
               {...registerFn('quantity', { valueAsNumber: true })}
             />
