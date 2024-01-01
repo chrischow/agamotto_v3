@@ -41,7 +41,7 @@ export class OptionTradesService {
     return {
       ...trade,
       expiry: trade.expiry.toISOString(),
-      openDate: trade.expiry.toISOString(),
+      openDate: trade.openDate.toISOString(),
       closeDate: trade.closeDate?.toISOString(),
     }
   }

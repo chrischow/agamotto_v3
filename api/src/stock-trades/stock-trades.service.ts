@@ -5,6 +5,7 @@ import { Repository } from 'typeorm'
 import { StockTrade } from '../database/entities/stock-trade.entity'
 import {
   CreateStockTradeDto,
+  GetStockTradeDetailResponseDto,
   StockTradeDetail,
   UpdateStockTradeDto,
 } from '../dto/stock-trade.dto'
@@ -32,6 +33,16 @@ export class StockTradesService {
   // Create
   async createStockTrade(strategyId: string, dto: CreateStockTradeDto) {
     await this.stockTradeRepo.insert({ ...dto, strategyId })
+  }
+
+  // Read
+  async getStockTrade(id: string): Promise<GetStockTradeDetailResponseDto> {
+    const trade = await this.stockTradeRepo.findOne({ where: { id } })
+    return {
+      ...trade,
+      openDate: trade.openDate.toISOString(),
+      closeDate: trade.closeDate?.toISOString(),
+    }
   }
 
   // Update

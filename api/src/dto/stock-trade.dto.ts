@@ -82,3 +82,16 @@ export interface StockTradeDetail {
   remarks?: string
   strategyId: string
 }
+
+export interface GetStockTradeDetailResponseDto {
+  id: string
+  ticker: string
+  quantity: number
+  position: string
+  openDate: string
+  openPrice: number
+  closeDate?: string
+  closePrice?: number
+  remarks?: string
+  strategyId: string
+}
