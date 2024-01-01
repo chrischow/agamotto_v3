@@ -75,20 +75,16 @@ export const optionTradesTableColumns = [
 
 const stockTradesTableColumnHelper = createColumnHelper<StockTradeDetail>()
 export const stockTradesTableColumns = [
-  // columnHelper.accessor('name', {
-  //   cell: (info) => (
-  //     <Link
-  //       color="purple.500"
-  //       as={ReactRouterLink}
-  //       to={`/manage/${info.row.original.id}`}
-  //     >
-  //       {info.getValue()}
-  //     </Link>
-  //   ),
-  //   header: 'Name',
-  // }),
   stockTradesTableColumnHelper.accessor('ticker', {
-    cell: (info) => info.getValue(),
+    cell: (info) => (
+      <Link
+        color="purple.500"
+        as={ReactRouterLink}
+        to={`/manage/${info.row.original.strategyId}/stocks/${info.row.original.id}`}
+      >
+        {info.getValue()}
+      </Link>
+    ),
     header: 'Ticker',
   }),
   stockTradesTableColumnHelper.accessor('position', {
@@ -110,14 +106,21 @@ export const stockTradesTableColumns = [
     },
     header: 'Status',
   }),
-  stockTradesTableColumnHelper.accessor('openPrice', {
-    cell: (info) => (
-      <Text fontFamily="mono">${info.getValue().toFixed(2)}</Text>
-    ),
-    header: 'Open Price',
-  }),
-  stockTradesTableColumnHelper.accessor('openDate', {
-    cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
-    header: 'Open Date',
+  stockTradesTableColumnHelper.display({
+    cell: (info) => {
+      const { closeDate, closePrice, openPrice, position, quantity } =
+        info.row.original
+      const positionMultiplier = position === 'LONG' ? 1 : -1
+      const profit =
+        closeDate != null && closePrice != null
+          ? (closePrice - openPrice) * positionMultiplier * quantity * 100
+          : undefined
+      return (
+        <Text fontFamily="mono">
+          {profit ? currencyFormatter.format(profit) : '-'}
+        </Text>
+      )
+    },
+    header: 'Profit',
   }),
 ]
