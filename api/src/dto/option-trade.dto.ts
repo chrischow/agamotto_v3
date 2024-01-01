@@ -121,4 +121,5 @@ export interface OptionTradeDetail {
   closeDelta?: number
   strike: number
   remarks?: string
+  strategyId: string
 }

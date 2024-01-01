@@ -80,4 +80,5 @@ export interface StockTradeDetail {
   closeDate?: Date
   closePrice?: number
   remarks?: string
+  strategyId: string
 }
