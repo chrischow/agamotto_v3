@@ -2,7 +2,7 @@ import {
   CreateStockTradeDto,
   GetStockTradeDetailResponseDto,
 } from '../../../api/src/dto/stock-trade.dto'
-import { deleteQuery, get, post } from './common'
+import { deleteQuery, get, post, put } from './common'
 
 export const createStockTrade = async (
   strategyId: string,
@@ -16,6 +16,14 @@ export const getStockTrade = async (
   stockTradeId: string,
 ): Promise<GetStockTradeDetailResponseDto> => {
   return await get(`strategies/${strategyId}/stocks/${stockTradeId}`)
+}
+
+export const updateStockTrade = async (
+  strategyId: string,
+  stockTradeId: string,
+  dto: CreateStockTradeDto,
+) => {
+  return await put(`strategies/${strategyId}/stocks/${stockTradeId}`, dto)
 }
 
 export const deleteStockTrade = async (
