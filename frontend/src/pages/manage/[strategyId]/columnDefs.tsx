@@ -5,6 +5,7 @@ import { Link as ReactRouterLink } from 'react-router-dom'
 
 import { OptionTradeDetail } from '../../../../../api/src/dto/option-trade.dto'
 import { StockTradeDetail } from '../../../../../api/src/dto/stock-trade.dto'
+import { currencyFormatter } from '../../../utils'
 
 const optionTradesTableColumnHelper = createColumnHelper<OptionTradeDetail>()
 export const optionTradesTableColumns = [
@@ -30,7 +31,7 @@ export const optionTradesTableColumns = [
   }),
   optionTradesTableColumnHelper.accessor('strike', {
     cell: (info) => (
-      <Text fontFamily="mono">${info.getValue().toFixed(2)}</Text>
+      <Text fontFamily="mono">{currencyFormatter.format(info.getValue())}</Text>
     ),
     header: 'Strike',
   }),
