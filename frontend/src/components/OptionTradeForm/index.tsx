@@ -15,20 +15,22 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react'
-import { format } from 'date-fns'
+import { format, parse } from 'date-fns'
 import { useState } from 'react'
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 
-import { CreateOptionTradeDto } from '../../../../../../../../api/src/dto/option-trade.dto'
-import { DatePicker } from '../../../../../../components/DatePicker'
+import { CreateOptionTradeDto } from '../../../../api/src/dto/option-trade.dto'
+import { DatePicker } from '../DatePicker'
 
 const OptionTradeForm = ({
   registerFn,
   setValue,
+  defaultValues,
 }: {
   registerFn: UseFormRegister<CreateOptionTradeDto>
   setValue: UseFormSetValue<CreateOptionTradeDto>
+  defaultValues?: CreateOptionTradeDto
 }) => {
   const [isClosingTradeShown, setIsClosingTradeShown] = useState<boolean>(false)
 
@@ -45,7 +47,15 @@ const OptionTradeForm = ({
         </FormControl>
         <FormControl>
           <FormLabel>Quantity</FormLabel>
-          <NumberInput defaultValue={-1} step={1} focusBorderColor="purple.400">
+          <NumberInput
+            defaultValue={
+              defaultValues && defaultValues.quantity
+                ? defaultValues.quantity
+                : -1
+            }
+            step={1}
+            focusBorderColor="purple.400"
+          >
             <NumberInputField
               {...registerFn('quantity', { valueAsNumber: true })}
             />
@@ -60,7 +70,7 @@ const OptionTradeForm = ({
         <FormControl>
           <FormLabel>Instrument</FormLabel>
           <RadioGroup
-            defaultValue="PUT"
+            defaultValue={defaultValues ? defaultValues.instrument : 'PUT'}
             onChange={(value) => setValue('instrument', value)}
           >
             <HStack spacing={4}>
@@ -76,7 +86,11 @@ const OptionTradeForm = ({
         <FormControl>
           <FormLabel>Expiration</FormLabel>
           <DatePicker
-            initialValue={new Date()}
+            initialValue={
+              defaultValues && defaultValues.expiry
+                ? new Date(parse(defaultValues.expiry, 'd/MM/yyyy', new Date()))
+                : new Date()
+            }
             registerProps={registerFn('expiry')}
           />
         </FormControl>
@@ -120,7 +134,13 @@ const OptionTradeForm = ({
         <FormControl>
           <FormLabel>Date</FormLabel>
           <DatePicker
-            initialValue={new Date()}
+            initialValue={
+              defaultValues && defaultValues.openDate
+                ? new Date(
+                    parse(defaultValues.openDate, 'd/MM/yyyy', new Date()),
+                  )
+                : new Date()
+            }
             registerProps={registerFn('openDate')}
           />
         </FormControl>
@@ -155,14 +175,33 @@ const OptionTradeForm = ({
           variant="ghost"
           onClick={() => {
             setIsClosingTradeShown(!isClosingTradeShown)
-            if (isClosingTradeShown) {
+            if (!defaultValues || !defaultValues.closePrice) {
               setValue('closePrice', undefined)
-              setValue('closeDelta', undefined)
-              setValue('closeDate', undefined)
             } else {
-              setValue('closePrice', 0)
-              setValue('closeDelta', 0)
-              setValue('closeDate', format(new Date(), 'dd/MM/yyyy'))
+              setValue('closePrice', defaultValues.closePrice)
+            }
+
+            if (!defaultValues || !defaultValues.closeDate) {
+              if (isClosingTradeShown) {
+                setValue('closeDate', undefined)
+              } else {
+                setValue('closeDate', format(new Date(), 'dd/MM/yyyy'))
+              }
+            } else {
+              setValue(
+                'closeDate',
+                format(new Date(defaultValues.closeDate), 'dd/MM/yyyy'),
+              )
+            }
+
+            if (!defaultValues || !defaultValues.closeDelta) {
+              if (isClosingTradeShown) {
+                setValue('closeDelta', undefined)
+              } else {
+                setValue('closeDelta', 0)
+              }
+            } else {
+              setValue('closePrice', defaultValues.closeDelta)
             }
           }}
         />
@@ -189,7 +228,13 @@ const OptionTradeForm = ({
           <FormControl>
             <FormLabel>Date</FormLabel>
             <DatePicker
-              initialValue={new Date()}
+              initialValue={
+                defaultValues && defaultValues.closeDate
+                  ? new Date(
+                      parse(defaultValues.closeDate, 'd/MM/yyyy', new Date()),
+                    )
+                  : new Date()
+              }
               registerProps={registerFn('closeDate')}
             />
           </FormControl>

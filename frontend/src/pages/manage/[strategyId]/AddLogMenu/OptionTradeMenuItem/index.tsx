@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { CreateOptionTradeDto } from '../../../../../../../api/src/dto/option-trade.dto'
 import { createOptionTrade } from '../../../../../api/optionTrades'
 import CustomModal from '../../../../../components/CustomModal'
-import OptionTradeForm from './OptionTradeForm'
+import OptionTradeForm from '../../../../../components/OptionTradeForm'
 
 const OptionTradeMenuItem = ({ strategyId }: { strategyId: string }) => {
   const queryClient = useQueryClient()
