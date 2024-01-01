@@ -4,7 +4,7 @@ import {
   GetStrategyResponseDto,
   UpdateStrategyRequestDto,
 } from '../../../api/src/dto/strategy.dto'
-import { get, post, put } from './common'
+import { deleteQuery, get, post, put } from './common'
 
 export const getAllStrategies =
   async (): Promise<GetAllStrategiesResponseDto> => {
@@ -25,4 +25,8 @@ export const updateStrategy = async (
   dto: UpdateStrategyRequestDto,
 ) => {
   return await put(`strategies/${strategyId}`, dto)
+}
+
+export const deleteStrategy = async (strategyId: string) => {
+  return await deleteQuery(`strategies/${strategyId}`)
 }
