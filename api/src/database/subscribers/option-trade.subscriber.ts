@@ -43,7 +43,7 @@ export class OptionTradeSubscriber
         : 'numberOfClosedCallTrades'
 
     // Logging of a completed option trade
-    if (entity.closePrice !== undefined && entity.closePrice !== null) {
+    if (entity.closePrice != null) {
       await accountRepo.update(
         { id: userId },
         {

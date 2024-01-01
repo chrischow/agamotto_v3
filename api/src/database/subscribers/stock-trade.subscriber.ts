@@ -37,7 +37,7 @@ export class StockTradeSubscriber
     const positionMultiplier = entity.position === 'LONG' ? 1 : -1
 
     // Logging of a completed option trade
-    if (entity.closePrice !== undefined && entity.closePrice !== null) {
+    if (entity.closePrice != null) {
       await accountRepo.update(
         { id: userId },
         {
