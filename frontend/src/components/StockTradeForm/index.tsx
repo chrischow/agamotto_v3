@@ -18,8 +18,8 @@ import { useState } from 'react'
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 
-import { CreateStockTradeDto } from '../../../../../../../../api/src/dto/stock-trade.dto'
-import { DatePicker } from '../../../../../../components/DatePicker'
+import { CreateStockTradeDto } from '../../../../api/src/dto/stock-trade.dto'
+import { DatePicker } from '../DatePicker'
 
 const StockTradeForm = ({
   registerFn,

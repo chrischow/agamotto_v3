@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { CreateStockTradeDto } from '../../../../../../../api/src/dto/stock-trade.dto'
 import { createStockTrade } from '../../../../../api/stockTrades'
 import CustomModal from '../../../../../components/CustomModal'
-import StockTradeForm from './StockTradeForm'
+import StockTradeForm from '../../../../../components/StockTradeForm'
 
 const StockTradeMenuItem = ({ strategyId }: { strategyId: string }) => {
   const queryClient = useQueryClient()
