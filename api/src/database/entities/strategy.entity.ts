@@ -25,10 +25,14 @@ export class Strategy {
   @Column({ type: 'varchar', nullable: true })
   description?: string
 
-  @OneToMany(() => OptionTrade, (optionTrade) => optionTrade.strategy)
+  @OneToMany(() => OptionTrade, (optionTrade) => optionTrade.strategy, {
+    onDelete: 'CASCADE',
+  })
   optionTrades: OptionTrade[]
 
-  @OneToMany(() => StockTrade, (stockTrade) => stockTrade.strategy)
+  @OneToMany(() => StockTrade, (stockTrade) => stockTrade.strategy, {
+    onDelete: 'CASCADE',
+  })
   stockTrades: StockTrade[]
 
   @ManyToOne(() => User, (user) => user.strategies)

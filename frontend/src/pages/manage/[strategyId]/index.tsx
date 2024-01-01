@@ -27,13 +27,14 @@ import { UpdateStrategyRequestDto } from '../../../../../api/src/dto/strategy.dt
 import { getStrategy, updateStrategy } from '../../../api/strategies'
 import AddLogMenu from './AddLogMenu'
 import { optionTradesTableColumns, stockTradesTableColumns } from './columnDefs'
+import DeleteStrategyModal from './DeleteStrategyModal'
 import EditableHeading from './EditableHeading'
 import EditableTextArea from './EditableTextArea'
 import TradesPanel from './TradesPanel'
 
 const StrategyDetailPage = () => {
   const params = useParams()
-  const strategyId = params?.strategyId
+  const strategyId = params?.strategyId as string
   const [name, setName] = useState<string>('')
   const [isNameFieldDirty, setIsNameFieldDirty] = useState<boolean>(false)
   const [description, setDescription] = useState<string | undefined>()
@@ -138,11 +139,15 @@ const StrategyDetailPage = () => {
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-          <EditableHeading
-            headingText={name}
-            handleChange={handleNameChange}
-            submitChange={submitNameChange}
-          />
+          <HStack width="100%" alignItems="end">
+            <EditableHeading
+              headingText={name}
+              handleChange={handleNameChange}
+              submitChange={submitNameChange}
+            />
+            <Spacer />
+            <DeleteStrategyModal strategyId={strategyId} />
+          </HStack>
           <Box width="100%" mt={1}>
             {description !== undefined && (
               <EditableTextArea
