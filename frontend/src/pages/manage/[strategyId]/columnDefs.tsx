@@ -1,26 +1,23 @@
-import { Tag, Text } from '@chakra-ui/react'
+import { Link, Tag, Text } from '@chakra-ui/react'
 import { createColumnHelper } from '@tanstack/react-table'
 import { format } from 'date-fns'
+import { Link as ReactRouterLink } from 'react-router-dom'
 
 import { OptionTradeDetail } from '../../../../../api/src/dto/option-trade.dto'
 import { StockTradeDetail } from '../../../../../api/src/dto/stock-trade.dto'
 
 const optionTradesTableColumnHelper = createColumnHelper<OptionTradeDetail>()
 export const optionTradesTableColumns = [
-  // columnHelper.accessor('name', {
-  //   cell: (info) => (
-  //     <Link
-  //       color="purple.500"
-  //       as={ReactRouterLink}
-  //       to={`/manage/${info.row.original.id}`}
-  //     >
-  //       {info.getValue()}
-  //     </Link>
-  //   ),
-  //   header: 'Name',
-  // }),
   optionTradesTableColumnHelper.accessor('ticker', {
-    cell: (info) => info.getValue(),
+    cell: (info) => (
+      <Link
+        color="purple.500"
+        as={ReactRouterLink}
+        to={`/manage/${info.row.original.strategyId}/options/${info.row.original.id}`}
+      >
+        {info.getValue()}
+      </Link>
+    ),
     header: 'Ticker',
   }),
   optionTradesTableColumnHelper.accessor('position', {
