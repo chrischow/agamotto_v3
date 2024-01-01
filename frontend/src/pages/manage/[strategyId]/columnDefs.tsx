@@ -1,26 +1,24 @@
-import { Tag, Text } from '@chakra-ui/react'
+import { Link, Tag, Text } from '@chakra-ui/react'
 import { createColumnHelper } from '@tanstack/react-table'
 import { format } from 'date-fns'
+import { Link as ReactRouterLink } from 'react-router-dom'
 
 import { OptionTradeDetail } from '../../../../../api/src/dto/option-trade.dto'
 import { StockTradeDetail } from '../../../../../api/src/dto/stock-trade.dto'
+import { currencyFormatter } from '../../../utils'
 
 const optionTradesTableColumnHelper = createColumnHelper<OptionTradeDetail>()
 export const optionTradesTableColumns = [
-  // columnHelper.accessor('name', {
-  //   cell: (info) => (
-  //     <Link
-  //       color="purple.500"
-  //       as={ReactRouterLink}
-  //       to={`/manage/${info.row.original.id}`}
-  //     >
-  //       {info.getValue()}
-  //     </Link>
-  //   ),
-  //   header: 'Name',
-  // }),
   optionTradesTableColumnHelper.accessor('ticker', {
-    cell: (info) => info.getValue(),
+    cell: (info) => (
+      <Link
+        color="purple.500"
+        as={ReactRouterLink}
+        to={`/manage/${info.row.original.strategyId}/options/${info.row.original.id}`}
+      >
+        {info.getValue()}
+      </Link>
+    ),
     header: 'Ticker',
   }),
   optionTradesTableColumnHelper.accessor('position', {
@@ -33,7 +31,7 @@ export const optionTradesTableColumns = [
   }),
   optionTradesTableColumnHelper.accessor('strike', {
     cell: (info) => (
-      <Text fontFamily="mono">${info.getValue().toFixed(2)}</Text>
+      <Text fontFamily="mono">{currencyFormatter.format(info.getValue())}</Text>
     ),
     header: 'Strike',
   }),
@@ -56,15 +54,22 @@ export const optionTradesTableColumns = [
     },
     header: 'Status',
   }),
-  optionTradesTableColumnHelper.accessor('openPrice', {
-    cell: (info) => (
-      <Text fontFamily="mono">${info.getValue().toFixed(2)}</Text>
-    ),
-    header: 'Open Price',
-  }),
-  optionTradesTableColumnHelper.accessor('openDate', {
-    cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
-    header: 'Open Date',
+  optionTradesTableColumnHelper.display({
+    cell: (info) => {
+      const { closeDate, closePrice, openPrice, position, quantity } =
+        info.row.original
+      const positionMultiplier = position === 'LONG' ? 1 : -1
+      const profit =
+        closeDate != null && closePrice != null
+          ? (closePrice - openPrice) * positionMultiplier * quantity * 100
+          : undefined
+      return (
+        <Text fontFamily="mono">
+          {profit ? currencyFormatter.format(profit) : '-'}
+        </Text>
+      )
+    },
+    header: 'Profit',
   }),
 ]
 

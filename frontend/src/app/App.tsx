@@ -7,6 +7,7 @@ import WithNav from '../components/WithNav'
 import LoginPage from '../pages/login'
 import ManagePage from '../pages/manage'
 import StrategyDetailPage from '../pages/manage/[strategyId]'
+import OptionTradeDetailPage from '../pages/manage/[strategyId]/options/[optionTradeId]'
 import Providers from './Providers'
 
 function App() {
@@ -31,6 +32,10 @@ function App() {
             <Route
               path="/manage/:strategyId"
               element={<ProtectedPage element={<StrategyDetailPage />} />}
+            />
+            <Route
+              path="/manage/:strategyId/options/:optionTradeId"
+              element={<ProtectedPage element={<OptionTradeDetailPage />} />}
             />
             <Route path="*" element={<ProtectedPage element={<>404</>} />} />
           </Route>

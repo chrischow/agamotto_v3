@@ -5,6 +5,7 @@ import { Repository } from 'typeorm'
 import { OptionTrade } from '../database/entities/option-trade.entity'
 import {
   CreateOptionTradeDto,
+  GetOptionTradeDetailResponseDto,
   OptionTradeDetail,
   UpdateOptionTradeDto,
 } from '../dto/option-trade.dto'
@@ -32,6 +33,17 @@ export class OptionTradesService {
   // Create
   async createOptionTrade(strategyId: string, dto: CreateOptionTradeDto) {
     await this.optionTradeRepo.insert({ ...dto, strategyId })
+  }
+
+  // Read
+  async getOptionTrade(id: string): Promise<GetOptionTradeDetailResponseDto> {
+    const trade = await this.optionTradeRepo.findOne({ where: { id } })
+    return {
+      ...trade,
+      expiry: trade.expiry.toISOString(),
+      openDate: trade.expiry.toISOString(),
+      closeDate: trade.closeDate?.toISOString(),
+    }
   }
 
   // Update

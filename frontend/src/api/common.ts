@@ -27,3 +27,11 @@ export const post = async (resource: string, body: any) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     .then((res) => res.data)
 }
+
+export const deleteQuery = async (resource: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return await axios
+    .delete(`${BACKEND_PREFIX}/${resource}`)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    .then((res) => res.data)
+}

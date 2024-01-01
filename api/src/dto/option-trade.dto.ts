@@ -87,7 +87,7 @@ export class UpdateOptionTradeDto {
 
   @IsOptional()
   @IsDateString()
-  closeDate?: number
+  closeDate?: string
 
   @IsOptional()
   @IsNumber()
@@ -121,4 +121,23 @@ export interface OptionTradeDetail {
   closeDelta?: number
   strike: number
   remarks?: string
+  strategyId: string
+}
+
+export interface GetOptionTradeDetailResponseDto {
+  id: string
+  ticker: string
+  instrument: string
+  quantity: number
+  position: string
+  expiry: string
+  strike: number
+  openDate: string
+  openPrice: number
+  openDelta: number
+  closeDate?: string
+  closePrice?: number
+  closeDelta?: number
+  remarks?: string
+  strategyId: string
 }

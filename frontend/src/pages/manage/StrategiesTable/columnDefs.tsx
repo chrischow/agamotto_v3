@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import { Link as ReactRouterLink } from 'react-router-dom'
 
 import { StrategySummaryResponse } from '../../../../../api/src/dto/strategy.dto'
+import { currencyFormatter } from '../../../utils'
 
 const columnHelper = createColumnHelper<StrategySummaryResponse>()
 
@@ -23,10 +24,9 @@ export const strategiesTableColumns = [
   columnHelper.display({
     cell: (info) => (
       <Text fontFamily="mono">
-        $
-        {(
-          info.row.original.optionsProfit + info.row.original.stocksProfit
-        ).toFixed(2)}
+        {currencyFormatter.format(
+          info.row.original.optionsProfit + info.row.original.stocksProfit,
+        )}
       </Text>
     ),
     header: 'Total Profit',
