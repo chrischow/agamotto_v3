@@ -104,7 +104,7 @@ const OptionTradeDetailPage = () => {
               optionTradeId={optionTradeId}
             />
           </HStack>
-          <SimpleGrid mt={6} columns={4} spacing={6}>
+          <SimpleGrid width="100%" mt={6} columns={4} spacing={6}>
             <InfoCard label="Ticker" content={data.ticker} />
             <InfoCard label="Instrument" content={data.instrument} />
             <InfoCard
