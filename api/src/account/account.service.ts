@@ -42,7 +42,7 @@ export class AccountService {
     )
 
     const {
-      openStocksPosition,
+      openStocksProfit,
       realisedStocksProfit,
       numberOfOpenStockTrades,
       numberOfClosedStockTrades,
@@ -55,7 +55,7 @@ export class AccountService {
     account.numberOfClosedPutTrades = numberOfClosedPutTrades
     account.numberOfOpenCallTrades = numberOfOpenCallTrades
     account.numberOfClosedCallTrades = numberOfClosedCallTrades
-    account.openStocksPosition = openStocksPosition
+    account.openStocksProfit = openStocksProfit
     account.realisedStocksProfit = realisedStocksProfit
     account.numberOfOpenStockTrades = numberOfOpenStockTrades
     account.numberOfClosedStockTrades = numberOfClosedStockTrades

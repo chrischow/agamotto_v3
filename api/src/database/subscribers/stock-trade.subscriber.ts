@@ -41,8 +41,8 @@ export class StockTradeSubscriber
       await accountRepo.update(
         { id: userId },
         {
-          openStocksPosition:
-            account.openStocksPosition +
+          openStocksProfit:
+            account.openStocksProfit +
             entity.openPrice * entity.quantity * positionMultiplier,
           realisedStocksProfit:
             account.realisedOptionsProfit +
@@ -58,7 +58,7 @@ export class StockTradeSubscriber
       await accountRepo.update(
         { id: userId },
         {
-          openStocksPosition:
+          openStocksProfit:
             account.openOptionsProfit -
             entity.openPrice * entity.quantity * positionMultiplier,
           numberOfOpenStockTrades: account.numberOfOpenStockTrades + 1,

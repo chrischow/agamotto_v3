@@ -30,7 +30,7 @@ export class Account {
   realisedStocksProfit: number
 
   @Column({ type: 'float', default: 0 })
-  openStocksPosition: number
+  openStocksProfit: number
 
   @Column({ type: 'int', default: 0 })
   numberOfOpenPutTrades: number

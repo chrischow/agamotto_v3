@@ -2,7 +2,7 @@ import { StockTrade } from '../database/entities/stock-trade.entity'
 
 export const computeStockTradesStats = (trades: StockTrade[]) => {
   const stats = {
-    openStocksPosition: 0,
+    openStocksProfit: 0,
     realisedStocksProfit: 0,
     numberOfOpenStockTrades: 0,
     numberOfClosedStockTrades: 0,
@@ -12,7 +12,7 @@ export const computeStockTradesStats = (trades: StockTrade[]) => {
     const positionMultiplier = trade.position === 'LONG' ? 1 : -1
 
     if (trade.closePrice === undefined || trade.closePrice === null) {
-      stats.openStocksPosition -=
+      stats.openStocksProfit -=
         trade.openPrice * trade.quantity * positionMultiplier
       stats.numberOfOpenStockTrades += 1
     } else {
