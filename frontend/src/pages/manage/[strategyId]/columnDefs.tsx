@@ -54,15 +54,22 @@ export const optionTradesTableColumns = [
     },
     header: 'Status',
   }),
-  optionTradesTableColumnHelper.accessor('openPrice', {
-    cell: (info) => (
-      <Text fontFamily="mono">${info.getValue().toFixed(2)}</Text>
-    ),
-    header: 'Open Price',
-  }),
-  optionTradesTableColumnHelper.accessor('openDate', {
-    cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
-    header: 'Open Date',
+  optionTradesTableColumnHelper.display({
+    cell: (info) => {
+      const { closeDate, closePrice, openPrice, position, quantity } =
+        info.row.original
+      const positionMultiplier = position === 'LONG' ? 1 : -1
+      const profit =
+        closeDate != null && closePrice != null
+          ? (closePrice - openPrice) * positionMultiplier * quantity * 100
+          : undefined
+      return (
+        <Text fontFamily="mono">
+          {profit ? currencyFormatter.format(profit) : '-'}
+        </Text>
+      )
+    },
+    header: 'Profit',
   }),
 ]
 
