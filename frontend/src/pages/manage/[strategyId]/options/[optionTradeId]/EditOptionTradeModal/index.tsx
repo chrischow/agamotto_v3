@@ -122,9 +122,8 @@ const EditOptionTradeModal = ({
           // Submit
           handleSubmit(onSubmit)()
           reset()
-
-          onClose()
         }}
+        secondaryAction={reset}
         bodyElement={
           <OptionTradeForm
             registerFn={register}
