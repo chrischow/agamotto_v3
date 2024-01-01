@@ -4,6 +4,7 @@ import { Repository } from 'typeorm'
 
 import { Account } from '../database/entities/account.entity'
 import { User } from '../database/entities/user.entity'
+import { GetAccountDetailsResponseDto } from '../dto/account.dto'
 import { OptionTradesService } from '../option-trades/option-trades.service'
 import { StockTradesService } from '../stock-trades/stock-trades.service'
 
@@ -16,7 +17,7 @@ export class AccountService {
     private readonly stockTradesService: StockTradesService,
   ) {}
 
-  async getAccountDetails(user: User) {
+  async getAccountDetails(user: User): Promise<GetAccountDetailsResponseDto> {
     return await this.accountRepo.findOne({ where: { id: user.id } })
   }
 
