@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   InternalServerErrorException,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -144,6 +145,21 @@ export class StrategiesController {
     try {
       await this.optionTradesService.createOptionTrade(id, dto)
       return { message: 'Created option trade.' }
+    } catch (error) {
+      console.error(error)
+      throw new InternalServerErrorException()
+    }
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Get(':strategyId/options/:optionTradeId')
+  async getOptionTrade(@Param('optionTradeId') optionTradeId: string) {
+    try {
+      const trade = await this.optionTradesService.getOptionTrade(optionTradeId)
+      if (!trade) {
+        throw new NotFoundException()
+      }
+      return trade
     } catch (error) {
       console.error(error)
       throw new InternalServerErrorException()
