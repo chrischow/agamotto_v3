@@ -13,7 +13,7 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react'
-import { format } from 'date-fns'
+import { format, parse } from 'date-fns'
 import { useState } from 'react'
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
@@ -24,9 +24,11 @@ import { DatePicker } from '../DatePicker'
 const StockTradeForm = ({
   registerFn,
   setValue,
+  defaultValues,
 }: {
   registerFn: UseFormRegister<CreateStockTradeDto>
   setValue: UseFormSetValue<CreateStockTradeDto>
+  defaultValues?: CreateStockTradeDto
 }) => {
   const [isClosingTradeShown, setIsClosingTradeShown] = useState<boolean>(false)
 
@@ -43,7 +45,7 @@ const StockTradeForm = ({
         </FormControl>
         <FormControl>
           <FormLabel>Quantity</FormLabel>
-          <NumberInput defaultValue={1} step={1} focusBorderColor="purple.400">
+          <NumberInput defaultValue={0} step={1} focusBorderColor="purple.400">
             <NumberInputField
               {...registerFn('quantity', { valueAsNumber: true })}
             />
@@ -77,7 +79,13 @@ const StockTradeForm = ({
         <FormControl>
           <FormLabel>Date</FormLabel>
           <DatePicker
-            initialValue={new Date()}
+            initialValue={
+              defaultValues && defaultValues.openDate
+                ? new Date(
+                    parse(defaultValues.openDate, 'd/MM/yyyy', new Date()),
+                  )
+                : new Date()
+            }
             registerProps={registerFn('openDate')}
           />
         </FormControl>
@@ -94,12 +102,23 @@ const StockTradeForm = ({
           variant="ghost"
           onClick={() => {
             setIsClosingTradeShown(!isClosingTradeShown)
-            if (isClosingTradeShown) {
+            if (!defaultValues || !defaultValues.closePrice) {
               setValue('closePrice', undefined)
-              setValue('closeDate', undefined)
             } else {
-              setValue('closePrice', 0)
-              setValue('closeDate', format(new Date(), 'dd/MM/yyyy'))
+              setValue('closePrice', defaultValues.closePrice)
+            }
+
+            if (!defaultValues || !defaultValues.closeDate) {
+              if (isClosingTradeShown) {
+                setValue('closeDate', undefined)
+              } else {
+                setValue('closeDate', format(new Date(), 'dd/MM/yyyy'))
+              }
+            } else {
+              setValue(
+                'closeDate',
+                format(new Date(defaultValues.closeDate), 'dd/MM/yyyy'),
+              )
             }
           }}
         />
@@ -110,7 +129,7 @@ const StockTradeForm = ({
           <FormControl>
             <FormLabel>Price</FormLabel>
             <NumberInput
-              defaultValue=""
+              defaultValue={0}
               step={0.01}
               focusBorderColor="purple.400"
             >
@@ -126,7 +145,13 @@ const StockTradeForm = ({
           <FormControl>
             <FormLabel>Date</FormLabel>
             <DatePicker
-              initialValue={new Date()}
+              initialValue={
+                defaultValues && defaultValues.closeDate
+                  ? new Date(
+                      parse(defaultValues.closeDate, 'd/MM/yyyy', new Date()),
+                    )
+                  : new Date()
+              }
               registerProps={registerFn('closeDate')}
             />
           </FormControl>
