@@ -31,9 +31,19 @@ export class StrategiesService {
         createdAt: true,
         optionTrades: {
           id: true,
+          openPrice: true,
+          closeDate: true,
+          closePrice: true,
+          quantity: true,
+          position: true,
         },
         stockTrades: {
           id: true,
+          openPrice: true,
+          closeDate: true,
+          closePrice: true,
+          quantity: true,
+          position: true,
         },
       },
       order: {
@@ -46,24 +56,23 @@ export class StrategiesService {
         strategy
       let optionsProfit = 0
       for (const optionTrade of optionTrades) {
-        const positionMultiplier = optionTrade.position === 'LONG' ? 1 : -1
-        if (optionTrade.closeDate && optionTrade.closePrice) {
+        const { closeDate, closePrice, openPrice, quantity, position } =
+          optionTrade
+        const positionMultiplier = position === 'LONG' ? 1 : -1
+        if (closeDate != null && closePrice != null) {
           optionsProfit +=
-            (optionTrade.closePrice - optionTrade.openPrice) *
-            positionMultiplier *
-            optionTrade.quantity *
-            100
+            (closePrice - openPrice) * positionMultiplier * quantity * 100
         }
       }
 
       let stocksProfit = 0
       for (const stockTrade of stockTrades) {
-        const positionMultiplier = stockTrade.position === 'LONG' ? 1 : -1
-        if (stockTrade.closeDate && stockTrade.closePrice) {
+        const { closeDate, closePrice, openPrice, quantity, position } =
+          stockTrade
+        const positionMultiplier = position === 'LONG' ? 1 : -1
+        if (closeDate != null && closePrice != null) {
           stocksProfit +=
-            (stockTrade.closePrice - stockTrade.openPrice) *
-            positionMultiplier *
-            stockTrade.quantity
+            (closePrice - openPrice) * positionMultiplier * quantity
         }
       }
 
