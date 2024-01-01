@@ -228,6 +228,21 @@ export class StrategiesController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @Get(':strategyId/stocks/:stockTradeId')
+  async getStockTrade(@Param('stockTradeId') stockTradeId: string) {
+    try {
+      const trade = await this.stockTradesService.getStockTrade(stockTradeId)
+      if (!trade) {
+        throw new NotFoundException()
+      }
+      return trade
+    } catch (error) {
+      console.error(error)
+      throw new InternalServerErrorException()
+    }
+  }
+
+  @HttpCode(HttpStatus.OK)
   @Put(':strategyId/stocks/:stockTradeId')
   async updateStockTrade(
     @Param('stockTradeId') stockTradeId: string,
