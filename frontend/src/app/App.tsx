@@ -9,6 +9,7 @@ import ManagePage from '../pages/manage'
 import StrategyDetailPage from '../pages/manage/[strategyId]'
 import OptionTradeDetailPage from '../pages/manage/[strategyId]/options/[optionTradeId]'
 import StockTradeDetailPage from '../pages/manage/[strategyId]/stocks/[stockTradeId]'
+import Dashboard from '../pages/root'
 import Providers from './Providers'
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
           <Route element={<WithNav />}>
             <Route
               path="/"
-              element={<ProtectedPage element={<>root (dashboard)</>} />}
+              element={<ProtectedPage element={<Dashboard />} />}
             />
             <Route
               path="/monitor"

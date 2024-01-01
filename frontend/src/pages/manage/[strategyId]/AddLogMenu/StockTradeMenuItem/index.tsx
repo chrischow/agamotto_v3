@@ -30,7 +30,6 @@ const StockTradeMenuItem = ({ strategyId }: { strategyId: string }) => {
     },
   })
   const onStockFormSubmit: SubmitHandler<CreateStockTradeDto> = (data) => {
-    console.log(data)
     stockTradesMutation.mutate(data)
   }
 

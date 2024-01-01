@@ -105,7 +105,6 @@ const EditStockTradeModal = ({
           }
 
           // Submit
-          console.log(getValues())
           handleSubmit(onSubmit)()
           reset()
         }}

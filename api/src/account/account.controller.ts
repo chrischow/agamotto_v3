@@ -9,6 +9,7 @@ import {
 import { SessionUser } from '../auth/auth.decorator'
 import { AuthenticationGuard } from '../auth/authentication.guard'
 import { User } from '../database/entities/user.entity'
+import { GetAccountDetailsResponseDto } from '../dto/account.dto'
 import { AccountService } from './account.service'
 
 @UseGuards(AuthenticationGuard)
@@ -17,7 +18,9 @@ export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
   @Get()
-  async getAccountDetails(@SessionUser() user: User) {
+  async getAccountDetails(
+    @SessionUser() user: User,
+  ): Promise<GetAccountDetailsResponseDto> {
     try {
       return await this.accountService.getAccountDetails(user)
     } catch (error) {

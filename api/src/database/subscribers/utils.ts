@@ -41,7 +41,7 @@ export const recomputeAndSaveAccountStats = async (
   const account = await accountRepo.findOne({ where: { id: userId } })
   account.openOptionsProfit = 0
   account.realisedOptionsProfit = 0
-  account.openStocksPosition = 0
+  account.openStocksProfit = 0
   account.realisedStocksProfit = 0
   account.numberOfOpenPutTrades = 0
   account.numberOfClosedPutTrades = 0
@@ -72,7 +72,7 @@ export const recomputeAndSaveAccountStats = async (
   })
 
   const {
-    openStocksPosition,
+    openStocksProfit,
     realisedStocksProfit,
     numberOfOpenStockTrades,
     numberOfClosedStockTrades,
@@ -85,7 +85,7 @@ export const recomputeAndSaveAccountStats = async (
   account.numberOfClosedPutTrades = numberOfClosedPutTrades
   account.numberOfOpenCallTrades = numberOfOpenCallTrades
   account.numberOfClosedCallTrades = numberOfClosedCallTrades
-  account.openStocksPosition = openStocksPosition
+  account.openStocksProfit = openStocksProfit
   account.realisedStocksProfit = realisedStocksProfit
   account.numberOfOpenStockTrades = numberOfOpenStockTrades
   account.numberOfClosedStockTrades = numberOfClosedStockTrades
