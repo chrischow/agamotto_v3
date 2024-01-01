@@ -98,7 +98,7 @@ const StockTradeDetailPage = () => {
               stockTradeId={stockTradeId}
             />
           </HStack>
-          <SimpleGrid mt={6} columns={3} spacing={8}>
+          <SimpleGrid width="100%" mt={6} columns={3} spacing={8}>
             <InfoCard label="Ticker" content={data.ticker} />
             <InfoCard label="Position" content={data.position} />
             <InfoCard
