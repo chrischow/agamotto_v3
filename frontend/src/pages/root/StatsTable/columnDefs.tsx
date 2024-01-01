@@ -11,68 +11,132 @@ export const strategiesTableColumns = [
     cell: (info) => info.getValue(),
     header: 'Ticker',
   }),
-  columnHelper.display({
-    cell: (info) => {
-      const { realisedOptionsProfit, realisedStocksProfit } = info.row.original
-      return (
-        <Text fontFamily="mono">
-          {currencyFormatter.format(
-            realisedOptionsProfit + realisedStocksProfit,
-          )}
-        </Text>
-      )
-    },
-    header: 'Total Realised Profit',
+  columnHelper.group({
+    header: 'Combined',
+    columns: [
+      columnHelper.group({
+        header: 'Profits',
+        columns: [
+          columnHelper.display({
+            cell: (info) => {
+              const { realisedOptionsProfit, realisedStocksProfit } =
+                info.row.original
+              return (
+                <Text fontFamily="mono">
+                  {currencyFormatter.format(
+                    realisedOptionsProfit + realisedStocksProfit,
+                  )}
+                </Text>
+              )
+            },
+            header: 'Realised',
+          }),
+          columnHelper.display({
+            cell: (info) => {
+              const { openOptionsProfit, openStocksProfit } = info.row.original
+              return (
+                <Text fontFamily="mono">
+                  {currencyFormatter.format(
+                    openOptionsProfit + openStocksProfit,
+                  )}
+                </Text>
+              )
+            },
+            header: 'Open',
+          }),
+        ],
+      }),
+    ],
   }),
-  columnHelper.display({
-    cell: (info) => {
-      const { openOptionsProfit, openStocksProfit } = info.row.original
-      return (
-        <Text fontFamily="mono">
-          {currencyFormatter.format(openOptionsProfit + openStocksProfit)}
-        </Text>
-      )
-    },
-    header: 'Total Open Profit',
+  columnHelper.group({
+    header: 'Options',
+    columns: [
+      columnHelper.group({
+        header: 'Profits',
+        columns: [
+          columnHelper.accessor('openOptionsProfit', {
+            cell: (info) => (
+              <Text fontFamily="mono">
+                {currencyFormatter.format(info.getValue())}
+              </Text>
+            ),
+            header: 'Open',
+          }),
+          columnHelper.accessor('realisedOptionsProfit', {
+            cell: (info) => (
+              <Text fontFamily="mono">
+                {currencyFormatter.format(info.getValue())}
+              </Text>
+            ),
+            header: 'Realised',
+          }),
+        ],
+      }),
+      columnHelper.group({
+        header: 'Put Trades',
+        columns: [
+          columnHelper.accessor('numberOfOpenPutTrades', {
+            cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
+            header: 'Open',
+          }),
+          columnHelper.accessor('numberOfClosedPutTrades', {
+            cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
+            header: 'Closed',
+          }),
+        ],
+      }),
+      columnHelper.group({
+        header: 'Call Trades',
+        columns: [
+          columnHelper.accessor('numberOfOpenCallTrades', {
+            cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
+            header: 'Open',
+          }),
+          columnHelper.accessor('numberOfClosedCallTrades', {
+            cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
+            header: 'Closed',
+          }),
+        ],
+      }),
+    ],
   }),
-  columnHelper.accessor('openOptionsProfit', {
-    cell: (info) => (
-      <Text fontFamily="mono">{currencyFormatter.format(info.getValue())}</Text>
-    ),
-    header: 'Open Options Profit',
-  }),
-  columnHelper.accessor('realisedOptionsProfit', {
-    cell: (info) => (
-      <Text fontFamily="mono">{currencyFormatter.format(info.getValue())}</Text>
-    ),
-    header: 'Realised Options Profit',
-  }),
-  columnHelper.accessor('numberOfOpenPutTrades', {
-    cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
-    header: 'No. of Open Puts',
-  }),
-  columnHelper.accessor('numberOfClosedPutTrades', {
-    cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
-    header: 'No. of Closed Puts',
-  }),
-  columnHelper.accessor('numberOfOpenCallTrades', {
-    cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
-    header: 'No. of Open Calls',
-  }),
-  columnHelper.accessor('numberOfClosedCallTrades', {
-    cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
-    header: 'No. of Closed Calls',
-  }),
-  columnHelper.accessor('openStocksProfit', {
-    cell: (info) => (
-      <Text fontFamily="mono">{currencyFormatter.format(info.getValue())}</Text>
-    ),
-    header: 'Open Stocks Profit',
-  }),
-  columnHelper.accessor('realisedStocksProfit', {
-    cell: (info) => (
-      <Text fontFamily="mono">{currencyFormatter.format(info.getValue())}</Text>
-    ),
-    header: 'Realised Stocks Profit',
+  columnHelper.group({
+    header: 'Stocks',
+    columns: [
+      columnHelper.group({
+        header: 'Profits',
+        columns: [
+          columnHelper.accessor('openStocksProfit', {
+            cell: (info) => (
+              <Text fontFamily="mono">
+                {currencyFormatter.format(info.getValue())}
+              </Text>
+            ),
+            header: 'Open',
+          }),
+          columnHelper.accessor('realisedStocksProfit', {
+            cell: (info) => (
+              <Text fontFamily="mono">
+                {currencyFormatter.format(info.getValue())}
+              </Text>
+            ),
+            header: 'Realised',
+          }),
+        ],
+      }),
+      columnHelper.group({
+        header: 'Trades',
+        columns: [
+          columnHelper.accessor('numberOfOpenStockTrades', {
+            cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
+            header: 'Open',
+          }),
+          columnHelper.accessor('numberOfClosedStockTrades', {
+            cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
+            header: 'Closed',
+          }),
+        ],
+      }),
+    ],
   }),
 ]
