@@ -10,7 +10,14 @@ export interface GetAccountDetailsResponseDto {
   numberOfClosedCallTrades: number
   numberOfOpenStockTrades: number
   numberOfClosedStockTrades: number
-  tickers: StatsByTicker[]
+  tradeStats: {
+    tickers: StatsByTicker[]
+    profitHistory: ProfitHistory
+  }
+}
+
+export interface ProfitHistory {
+  [key: string]: number
 }
 
 export interface StatsByTicker {
@@ -25,4 +32,9 @@ export interface StatsByTicker {
   numberOfClosedCallTrades: number
   numberOfOpenStockTrades: number
   numberOfClosedStockTrades: number
+}
+
+export interface TradeStats {
+  tickers: StatsByTicker[]
+  profitHistory: ProfitHistory
 }

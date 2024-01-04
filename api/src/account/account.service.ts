@@ -1,12 +1,17 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { format } from 'date-fns'
 import { OptionTrade } from 'src/database/entities/option-trade.entity'
 import { StockTrade } from 'src/database/entities/stock-trade.entity'
 import { Repository } from 'typeorm'
 
 import { Account } from '../database/entities/account.entity'
 import { User } from '../database/entities/user.entity'
-import { GetAccountDetailsResponseDto, StatsByTicker } from '../dto/account.dto'
+import {
+  GetAccountDetailsResponseDto,
+  StatsByTicker,
+  TradeStats,
+} from '../dto/account.dto'
 import { OptionTradesService } from '../option-trades/option-trades.service'
 import { StockTradesService } from '../stock-trades/stock-trades.service'
 
@@ -23,11 +28,11 @@ export class AccountService {
     const accountDetails = await this.accountRepo.findOne({
       where: { id: user.id },
     })
-    const tickers = await this.getTradesStats(user.id)
+    const tradeStats = await this.getTradesStats(user.id)
 
     return {
       ...accountDetails,
-      tickers,
+      tradeStats,
     }
   }
 
@@ -73,7 +78,7 @@ export class AccountService {
     await this.accountRepo.save(account)
   }
 
-  async getTradesStats(userId: string): Promise<StatsByTicker[]> {
+  async getTradesStats(userId: string): Promise<TradeStats> {
     const allOptionTrades = await this.optionTradesService.getAllOptionTrades(
       userId,
     )
@@ -81,23 +86,53 @@ export class AccountService {
       userId,
     )
 
+    const profitHistory: { [key: string]: number } = {}
+
     const tickers: {
       [key: string]: { options: OptionTrade[]; stocks: StockTrade[] }
     } = {}
     for (const optionTrade of allOptionTrades) {
-      const { ticker } = optionTrade
+      const { ticker, closeDate, closePrice, openPrice, quantity, position } =
+        optionTrade
+      const positionMultiplier = position === 'LONG' ? 1 : -1
+      // Tickers
       if (!(ticker in tickers)) {
         tickers[ticker] = { options: [], stocks: [] }
       }
       tickers[ticker].options.push(optionTrade)
+
+      // History
+      if (closePrice != null && closeDate != null) {
+        const profit =
+          (closePrice - openPrice) * positionMultiplier * quantity * 100
+        const dateStr = `${format(closeDate, 'yyyy-MM')}-01`
+        if (!(dateStr in profitHistory)) {
+          profitHistory[dateStr] = 0
+        }
+        profitHistory[dateStr] += profit
+      }
     }
 
     for (const stockTrade of allStockTrades) {
-      const { ticker } = stockTrade
+      const { ticker, closeDate, closePrice, openPrice, quantity, position } =
+        stockTrade
+      const positionMultiplier = position === 'LONG' ? 1 : -1
+      // Tickers
       if (!(ticker in tickers)) {
         tickers[ticker] = { options: [], stocks: [] }
       }
       tickers[ticker].stocks.push(stockTrade)
+
+      // History
+      if (closePrice != null && closeDate != null) {
+        const profit =
+          (closePrice - openPrice) * positionMultiplier * quantity * 100
+        const dateStr = `${format(closeDate, 'yyyy-MM')}-01`
+        if (!(dateStr in profitHistory)) {
+          profitHistory[dateStr] = 0
+        }
+        profitHistory[dateStr] += profit
+      }
     }
 
     // Output
@@ -147,6 +182,6 @@ export class AccountService {
       return 0
     })
 
-    return tickerStats
+    return { tickers: tickerStats, profitHistory }
   }
 }
