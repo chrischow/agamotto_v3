@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getAccountDetails } from '../../api/account'
 import { currencyFormatter } from '../../utils'
 import MetricCard from './MetricCard'
+import ProfitHistoryChart from './ProfitHistoryChart'
 import StatsTable from './StatsTable'
 
 const Dashboard = () => {
@@ -87,7 +88,13 @@ const Dashboard = () => {
       <Heading mt={8} size="lg">
         Tickers
       </Heading>
-      {data && <StatsTable tickers={data.tickers} />}
+      {data && <StatsTable tickers={data.tradeStats.tickers} />}
+      <Heading mt={8} size="lg">
+        Profit History
+      </Heading>
+      {data && (
+        <ProfitHistoryChart profitHistory={data.tradeStats.profitHistory} />
+      )}
     </>
   )
 }
