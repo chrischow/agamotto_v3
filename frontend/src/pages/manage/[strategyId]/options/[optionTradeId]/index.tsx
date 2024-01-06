@@ -158,7 +158,7 @@ const OptionTradeDetailPage = () => {
                     {currencyFormatter.format(data.openPrice)}
                   </Td>
                   <Td fontFamily="mono">
-                    {data.closePrice
+                    {data.closePrice != null
                       ? currencyFormatter.format(data.closePrice)
                       : '-'}
                   </Td>
@@ -167,7 +167,7 @@ const OptionTradeDetailPage = () => {
                   <Td>Delta</Td>
                   <Td fontFamily="mono">{data.openDelta.toFixed(3)}</Td>
                   <Td fontFamily="mono">
-                    {data.closeDelta ? data.closeDelta.toFixed(3) : '-'}
+                    {data.closeDelta != null ? data.closeDelta.toFixed(3) : '-'}
                   </Td>
                 </Tr>
               </Tbody>

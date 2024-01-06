@@ -142,7 +142,7 @@ const StockTradeDetailPage = () => {
                     {currencyFormatter.format(data.openPrice)}
                   </Td>
                   <Td fontFamily="mono">
-                    {data.closePrice
+                    {data.closePrice != null
                       ? currencyFormatter.format(data.closePrice)
                       : '-'}
                   </Td>
