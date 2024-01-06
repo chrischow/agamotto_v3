@@ -39,6 +39,7 @@ const StrategiesTable = () => {
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     initialState: { pagination: { pageSize: 50 } },
+    enableMultiSort: true,
   })
 
   return <CustomTable table={table} />
