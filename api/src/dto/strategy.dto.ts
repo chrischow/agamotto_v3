@@ -7,6 +7,7 @@ export class CreateStrategyRequestDto {
   @IsString()
   name: string
 
+  @IsOptional()
   @IsString()
   description: string
 }
