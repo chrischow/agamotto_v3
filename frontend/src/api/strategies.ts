@@ -1,5 +1,6 @@
 import {
   CreateStrategyRequestDto,
+  CreateStrategyResponseDto,
   GetAllStrategiesResponseDto,
   GetStrategyResponseDto,
   UpdateStrategyRequestDto,
@@ -11,7 +12,9 @@ export const getAllStrategies =
     return await get('strategies')
   }
 
-export const createStrategy = async (dto: CreateStrategyRequestDto) => {
+export const createStrategy = async (
+  dto: CreateStrategyRequestDto,
+): Promise<CreateStrategyResponseDto> => {
   return await post('strategies', dto)
 }
 
