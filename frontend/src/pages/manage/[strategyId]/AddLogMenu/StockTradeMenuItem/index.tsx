@@ -58,14 +58,14 @@ const StockTradeMenuItem = ({ strategyId }: { strategyId: string }) => {
           const openDate = getStockFormValues('openDate')
           setStockFormValue(
             'openDate',
-            parse(openDate, 'dd/MM/yyyy', new Date()).toISOString(),
+            parse(openDate, 'yyyy-MM-dd', new Date()).toISOString(),
           )
 
           const closeDate = getStockFormValues('closeDate')
           if (closeDate) {
             setStockFormValue(
               'closeDate',
-              parse(closeDate, 'dd/MM/yyyy', new Date()).toISOString(),
+              parse(closeDate, 'yyyy-MM-dd', new Date()).toISOString(),
             )
           }
 

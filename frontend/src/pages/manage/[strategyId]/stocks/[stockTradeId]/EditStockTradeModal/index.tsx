@@ -26,10 +26,10 @@ const EditStockTradeModal = ({
     ticker: data.ticker,
     position: data.position,
     quantity: data.quantity * (data.position === 'LONG' ? 1 : -1),
-    openDate: format(new Date(data.openDate), 'd/MM/yyyy'),
+    openDate: format(new Date(data.openDate), 'yyyy-MM-dd'),
     openPrice: data.openPrice,
     closeDate: data.closeDate
-      ? format(new Date(data.closeDate), 'd/MM/yyyy')
+      ? format(new Date(data.closeDate), 'yyyy-MM-dd')
       : undefined,
     closePrice: data.closePrice,
     remarks: data.remarks,
@@ -38,7 +38,7 @@ const EditStockTradeModal = ({
   const queryClient = useQueryClient()
 
   // Form control
-  const { register, handleSubmit, setValue, reset, getValues } =
+  const { register, handleSubmit, setValue, reset } =
     useForm<CreateStockTradeDto>({
       defaultValues,
     })
@@ -47,12 +47,12 @@ const EditStockTradeModal = ({
     setValue('ticker', data.ticker)
     setValue('position', data.position)
     setValue('quantity', data.quantity * (data.position === 'LONG' ? 1 : -1))
-    setValue('openDate', format(new Date(data.openDate), 'd/MM/yyyy'))
+    setValue('openDate', format(new Date(data.openDate), 'yyyy-MM-dd'))
     setValue('openPrice', data.openPrice)
     setValue(
       'closeDate',
       data.closeDate
-        ? format(new Date(data.closeDate), 'd/MM/yyyy')
+        ? format(new Date(data.closeDate), 'yyyy-MM-dd')
         : undefined,
     )
     setValue('remarks', data.remarks)
@@ -70,7 +70,30 @@ const EditStockTradeModal = ({
     },
   })
   const onSubmit: SubmitHandler<CreateStockTradeDto> = (data) => {
-    mutation.mutate(data)
+    // Amended data
+    const amendedData = JSON.parse(JSON.stringify(data))
+
+    // Fill in position
+    const quantity = data.quantity
+    const position = data.position ?? (quantity < 0 ? 'SHORT' : 'LONG')
+    amendedData.quantity = Math.abs(quantity)
+    amendedData.position = position
+
+    // Format dates
+    amendedData.openDate = parse(
+      data.openDate,
+      'yyyy-MM-dd',
+      new Date(),
+    ).toISOString()
+    if (data.closeDate) {
+      amendedData.closeDate = parse(
+        data.closeDate,
+        'yyyy-MM-dd',
+        new Date(),
+      ).toISOString()
+    }
+
+    mutation.mutate(amendedData)
   }
 
   return (
@@ -84,29 +107,6 @@ const EditStockTradeModal = ({
         primaryText="Save Changes"
         secondaryText="Cancel"
         primaryAction={() => {
-          // Fill in position
-          const quantity = getValues('quantity')
-          const position = quantity < 0 ? 'SHORT' : 'LONG'
-          setValue('quantity', Math.abs(quantity))
-          setValue('position', position)
-
-          // Format dates
-          const openDate = getValues('openDate')
-
-          setValue(
-            'openDate',
-            parse(openDate, 'd/MM/yyyy', new Date()).toISOString(),
-          )
-
-          const closeDate = getValues('closeDate')
-          if (closeDate) {
-            setValue(
-              'closeDate',
-              parse(closeDate, 'd/MM/yyyy', new Date()).toISOString(),
-            )
-          }
-
-          // Submit
           handleSubmit(onSubmit)()
           reset()
         }}

@@ -13,13 +13,12 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react'
-import { format, parse } from 'date-fns'
+import { format } from 'date-fns'
 import { useState } from 'react'
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 
 import { CreateStockTradeDto } from '../../../../api/src/dto/stock-trade.dto'
-import { DatePicker } from '../DatePicker'
 
 const StockTradeForm = ({
   registerFn,
@@ -78,7 +77,7 @@ const StockTradeForm = ({
         </FormControl>
         <FormControl>
           <FormLabel>Date</FormLabel>
-          <DatePicker
+          {/* <DatePicker
             initialValue={
               defaultValues && defaultValues.openDate
                 ? new Date(
@@ -87,7 +86,8 @@ const StockTradeForm = ({
                 : new Date()
             }
             registerProps={registerFn('openDate')}
-          />
+          /> */}
+          <Input type="date" {...registerFn('openDate')} />
         </FormControl>
       </SimpleGrid>
 
@@ -112,12 +112,12 @@ const StockTradeForm = ({
               if (isClosingTradeShown) {
                 setValue('closeDate', undefined)
               } else {
-                setValue('closeDate', format(new Date(), 'dd/MM/yyyy'))
+                setValue('closeDate', format(new Date(), 'yyyy-MM-dd'))
               }
             } else {
               setValue(
                 'closeDate',
-                format(new Date(defaultValues.closeDate), 'dd/MM/yyyy'),
+                format(new Date(defaultValues.closeDate), 'yyyy-MM-dd'),
               )
             }
           }}
@@ -144,7 +144,7 @@ const StockTradeForm = ({
           </FormControl>
           <FormControl>
             <FormLabel>Date</FormLabel>
-            <DatePicker
+            {/* <DatePicker
               initialValue={
                 defaultValues && defaultValues.closeDate
                   ? new Date(
@@ -153,7 +153,8 @@ const StockTradeForm = ({
                   : new Date()
               }
               registerProps={registerFn('closeDate')}
-            />
+            /> */}
+            <Input type="date" {...registerFn('closeDate')} />
           </FormControl>
         </SimpleGrid>
       )}
