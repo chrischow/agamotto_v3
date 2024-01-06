@@ -113,7 +113,7 @@ export const stockTradesTableColumns = [
       const positionMultiplier = position === 'LONG' ? 1 : -1
       const profit =
         closeDate != null && closePrice != null
-          ? (closePrice - openPrice) * positionMultiplier * quantity * 100
+          ? (closePrice - openPrice) * positionMultiplier * quantity
           : undefined
       return (
         <Text fontFamily="mono">
