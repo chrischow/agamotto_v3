@@ -39,7 +39,7 @@ const StrategyFormInModal = () => {
   })
 
   const submitForm = async () => {
-    if (name !== '' && description !== '') {
+    if (name !== '') {
       mutation.mutate({ name, description })
     }
   }
