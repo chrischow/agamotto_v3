@@ -20,27 +20,35 @@ export const strategiesTableColumns = [
       </Link>
     ),
     header: 'Name',
+    enableMultiSort: true,
   }),
-  columnHelper.display({
+  columnHelper.accessor('totalProfit', {
     cell: (info) => (
       <Text fontFamily="mono">
-        {currencyFormatter.format(
-          info.row.original.optionsProfit + info.row.original.stocksProfit,
-        )}
+        {currencyFormatter.format(info.row.original.totalProfit)}
       </Text>
     ),
     header: 'Total Profit',
+    enableMultiSort: true,
   }),
   columnHelper.accessor('numOptionTrades', {
     cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
     header: 'Option Trades',
+    enableMultiSort: true,
   }),
   columnHelper.accessor('numStockTrades', {
     cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
     header: 'Stock Trades',
+    enableMultiSort: true,
   }),
   columnHelper.accessor('executedAt', {
     cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
     header: 'Executed',
+    enableMultiSort: true,
+  }),
+  columnHelper.accessor('lastActivity', {
+    cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
+    header: 'Last Activity',
+    enableMultiSort: true,
   }),
 ]

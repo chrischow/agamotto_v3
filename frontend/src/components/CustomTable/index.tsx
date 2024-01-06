@@ -7,17 +7,24 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
 } from '@chakra-ui/react'
 import { flexRender, Table as ReactTable } from '@tanstack/react-table'
+import { ReactElement } from 'react'
 import {
   MdKeyboardArrowLeft,
   MdKeyboardArrowRight,
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
 } from 'react-icons/md'
+import {
+  TiArrowSortedDown,
+  TiArrowSortedUp,
+  TiArrowUnsorted,
+} from 'react-icons/ti'
 
 const CustomTable = <T,>({ table }: { table: ReactTable<T> }) => {
   return (
@@ -27,16 +34,64 @@ const CustomTable = <T,>({ table }: { table: ReactTable<T> }) => {
           <Thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <Tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <Th key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </Th>
-                ))}
+                {headerGroup.headers.map((header) => {
+                  const isSortable = header.column.getCanSort()
+                  const sortDirection = header.column.getIsSorted() as string
+                  let icon: ReactElement | undefined = undefined
+
+                  switch (sortDirection) {
+                    case 'asc':
+                      icon = (
+                        <IconButton
+                          icon={<TiArrowSortedUp />}
+                          aria-label="Sorted ascending"
+                          size="xs"
+                          variant="ghost"
+                        />
+                      )
+                      break
+                    case 'desc':
+                      icon = (
+                        <IconButton
+                          icon={<TiArrowSortedDown />}
+                          aria-label="Sorted descending"
+                          size="xs"
+                          variant="ghost"
+                        />
+                      )
+                      break
+                    default:
+                      icon = (
+                        <IconButton
+                          icon={<TiArrowUnsorted />}
+                          aria-label="Unsorted"
+                          size="xs"
+                          variant="ghost"
+                        />
+                      )
+                  }
+                  return (
+                    <Th
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      cursor={isSortable ? 'pointer' : undefined}
+                      onClick={
+                        isSortable
+                          ? header.column.getToggleSortingHandler()
+                          : undefined
+                      }
+                    >
+                      <HStack alignItems="center">
+                        <Text>
+                          {header
+                            .getContext()
+                            .column.columnDef.header?.toString()}
+                        </Text>
+                        {isSortable ? icon : null}
+                      </HStack>
+                    </Th>
+                  )
+                })}
               </Tr>
             ))}
           </Thead>
