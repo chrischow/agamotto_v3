@@ -36,6 +36,7 @@ export interface StrategySummaryResponse {
   optionsProfit: number
   stocksProfit: number
   executedAt: string
+  lastActivity: string
 }
 
 export interface GetAllStrategiesResponseDto {

@@ -51,7 +51,8 @@ export class StrategiesService {
 
     const strategies = allStrategies.map((strategy) => {
       const { id, name, description, optionTrades, stockTrades } = strategy
-      let executedAt: Date = new Date()
+      let executedAt: Date = undefined
+      let lastActivity: Date = undefined
       let optionsProfit = 0
       for (const optionTrade of optionTrades) {
         const {
@@ -67,12 +68,25 @@ export class StrategiesService {
           optionsProfit +=
             (closePrice - openPrice) * positionMultiplier * quantity * 100
         }
+
         // Update executed date
-        if (
-          (executedAt && openDate.getTime() < executedAt.getTime()) ||
-          !executedAt
-        ) {
+        if (!executedAt) {
           executedAt = openDate
+        } else if (openDate.getTime() < executedAt.getTime()) {
+          executedAt = openDate
+        }
+
+        // Update last activity date
+        if (!lastActivity) {
+          if (closeDate) {
+            lastActivity = closeDate
+          } else {
+            lastActivity = openDate
+          }
+        } else if (closeDate && closeDate.getTime() > lastActivity.getTime()) {
+          lastActivity = closeDate
+        } else if (openDate.getTime() > lastActivity.getTime()) {
+          lastActivity = openDate
         }
       }
 
@@ -92,11 +106,23 @@ export class StrategiesService {
             (closePrice - openPrice) * positionMultiplier * quantity
         }
         // Update executed date
-        if (
-          (executedAt && openDate.getTime() < executedAt.getTime()) ||
-          !executedAt
-        ) {
+        if (!executedAt) {
           executedAt = openDate
+        } else if (openDate.getTime() < executedAt.getTime()) {
+          executedAt = openDate
+        }
+
+        // Update last activity date
+        if (!lastActivity) {
+          if (closeDate) {
+            lastActivity = closeDate
+          } else {
+            lastActivity = openDate
+          }
+        } else if (closeDate && closeDate.getTime() > lastActivity.getTime()) {
+          lastActivity = closeDate
+        } else if (openDate.getTime() > lastActivity.getTime()) {
+          lastActivity = openDate
         }
       }
 
@@ -109,11 +135,20 @@ export class StrategiesService {
         optionsProfit,
         stocksProfit,
         executedAt: executedAt.toISOString(),
+        lastActivity: lastActivity.toISOString(),
       }
     })
 
     strategies.sort((a, b) => {
-      return new Date(b.executedAt).getTime() - new Date(a.executedAt).getTime()
+      const aExecutedAt = new Date(a.executedAt).getTime()
+      const aLastActivity = new Date(a.lastActivity).getTime()
+      const bExecutedAt = new Date(b.executedAt).getTime()
+      const bLastActivity = new Date(b.lastActivity).getTime()
+      if (aLastActivity !== bLastActivity) {
+        return bLastActivity - aLastActivity
+      } else {
+        return bExecutedAt - aExecutedAt
+      }
     })
 
     return { strategies }

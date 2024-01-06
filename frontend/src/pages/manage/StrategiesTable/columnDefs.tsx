@@ -43,4 +43,8 @@ export const strategiesTableColumns = [
     cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
     header: 'Executed',
   }),
+  columnHelper.accessor('lastActivity', {
+    cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
+    header: 'Last Activity',
+  }),
 ]
