@@ -46,7 +46,7 @@ export const optionTradesTableColumns = [
   optionTradesTableColumnHelper.display({
     cell: (info) => {
       const row = info.row.original
-      if (row.closeDate && row.closePrice) {
+      if (row.closeDate != null && row.closePrice != null) {
         return <Tag>Closed</Tag>
       } else {
         return <Tag colorScheme="teal">Open</Tag>
@@ -98,7 +98,7 @@ export const stockTradesTableColumns = [
   stockTradesTableColumnHelper.display({
     cell: (info) => {
       const row = info.row.original
-      if (row.closeDate && row.closePrice) {
+      if (row.closeDate != null && row.closePrice != null) {
         return <Tag>Closed</Tag>
       } else {
         return <Tag colorScheme="teal">Open</Tag>
