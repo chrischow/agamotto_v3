@@ -8,15 +8,21 @@ import { createOptionTrade } from '../../../../../api/optionTrades'
 import CustomModal from '../../../../../components/CustomModal'
 import OptionTradeForm from '../../../../../components/OptionTradeForm'
 
-const OptionTradeMenuItem = ({ strategyId }: { strategyId: string }) => {
+const OptionTradeMenuItem = ({
+  strategyId,
+  activateTab,
+}: {
+  strategyId: string
+  activateTab: () => void
+}) => {
   const queryClient = useQueryClient()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   // Form control
-  const { register, handleSubmit, setValue, reset, getValues } =
+  const { register, handleSubmit, setValue, reset } =
     useForm<CreateOptionTradeDto>({ defaultValues: { instrument: 'PUT' } })
 
-  const optionTradesMutation = useMutation({
+  const mutation = useMutation({
     mutationFn: (dto: CreateOptionTradeDto) => {
       return createOptionTrade(strategyId, dto)
     },
@@ -25,7 +31,30 @@ const OptionTradeMenuItem = ({ strategyId }: { strategyId: string }) => {
     },
   })
   const onSubmit: SubmitHandler<CreateOptionTradeDto> = (data) => {
-    optionTradesMutation.mutate(data)
+    const amendedData = { ...data }
+    const { quantity, openDate, expiry, closeDate } = data
+    // Fill in position
+    const position = quantity < 0 ? 'SHORT' : 'LONG'
+    amendedData.quantity = Math.abs(quantity)
+    amendedData.position = position
+
+    // Format dates
+    amendedData.openDate = parse(
+      openDate,
+      'yyyy-MM-dd',
+      new Date(),
+    ).toISOString()
+    amendedData.expiry = parse(expiry, 'yyyy-MM-dd', new Date()).toISOString()
+
+    if (closeDate) {
+      amendedData.closeDate = parse(
+        closeDate,
+        'yyyy-MM-dd',
+        new Date(),
+      ).toISOString()
+    }
+
+    mutation.mutate(amendedData)
   }
 
   return (
@@ -43,34 +72,8 @@ const OptionTradeMenuItem = ({ strategyId }: { strategyId: string }) => {
           reset()
         }}
         primaryAction={() => {
-          // Fill in position
-          const quantity = getValues('quantity')
-          const position = quantity < 0 ? 'SHORT' : 'LONG'
-          setValue('quantity', Math.abs(quantity))
-          setValue('position', position)
-
-          // Format dates
-          const openDate = getValues('openDate')
-          const expiry = getValues('expiry')
-          setValue(
-            'openDate',
-            parse(openDate, 'yyyy-MM-dd', new Date()).toISOString(),
-          )
-          setValue(
-            'expiry',
-            parse(expiry, 'yyyy-MM-dd', new Date()).toISOString(),
-          )
-
-          const closeDate = getValues('closeDate')
-          if (closeDate) {
-            setValue(
-              'closeDate',
-              parse(closeDate, 'yyyy-MM-dd', new Date()).toISOString(),
-            )
-          }
-
-          // Submit
           handleSubmit(onSubmit)()
+          activateTab()
           reset()
         }}
         isOpen={isOpen}

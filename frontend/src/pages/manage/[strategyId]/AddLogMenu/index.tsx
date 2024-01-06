@@ -4,7 +4,15 @@ import { FiChevronDown } from 'react-icons/fi'
 import OptionTradeMenuItem from './OptionTradeMenuItem'
 import StockTradeMenuItem from './StockTradeMenuItem'
 
-const AddLogMenu = ({ strategyId }: { strategyId: string }) => {
+const AddLogMenu = ({
+  strategyId,
+  activateOptionsTab,
+  activateStocksTab,
+}: {
+  strategyId: string
+  activateOptionsTab: () => void
+  activateStocksTab: () => void
+}) => {
   return (
     <>
       <Menu>
@@ -16,8 +24,14 @@ const AddLogMenu = ({ strategyId }: { strategyId: string }) => {
           Add Log
         </MenuButton>
         <MenuList>
-          <OptionTradeMenuItem strategyId={strategyId} />
-          <StockTradeMenuItem strategyId={strategyId} />
+          <OptionTradeMenuItem
+            strategyId={strategyId}
+            activateTab={activateOptionsTab}
+          />
+          <StockTradeMenuItem
+            strategyId={strategyId}
+            activateTab={activateStocksTab}
+          />
         </MenuList>
       </Menu>
     </>

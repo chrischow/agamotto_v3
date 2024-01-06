@@ -36,6 +36,7 @@ const StrategyDetailPage = () => {
   const params = useParams()
   const strategyId = params?.strategyId as string
   const [name, setName] = useState<string>('')
+  const [tabIndex, setTabIndex] = useState(0)
   const [isNameFieldDirty, setIsNameFieldDirty] = useState<boolean>(false)
   const [description, setDescription] = useState<string | undefined>()
   const [isDescriptionFieldDirty, setIsDescriptionFieldDirty] =
@@ -44,6 +45,11 @@ const StrategyDetailPage = () => {
   const [stockTrades, setStockTrades] = useState<StockTradeDetail[]>([])
   const queryClient = useQueryClient()
 
+  // Handle tab changes
+  const activateOptionsTab = () => setTabIndex(0)
+  const activateStocksTab = () => setTabIndex(1)
+
+  // Get strategy data
   const { data } = useQuery({
     queryKey: ['strategies', strategyId],
     queryFn: () => {
@@ -158,14 +164,26 @@ const StrategyDetailPage = () => {
             )}
           </Box>
           <Box width="100%" mt={8}>
-            <Tabs width="100%" colorScheme="purple" variant="soft-rounded">
+            <Tabs
+              width="100%"
+              colorScheme="purple"
+              variant="soft-rounded"
+              onChange={(index) => setTabIndex(index)}
+              index={tabIndex}
+            >
               <HStack>
                 <TabList>
                   <Tab>Options</Tab>
                   <Tab>Stocks</Tab>
                 </TabList>
                 <Spacer />
-                {strategyId && <AddLogMenu strategyId={strategyId} />}
+                {strategyId && (
+                  <AddLogMenu
+                    strategyId={strategyId}
+                    activateOptionsTab={activateOptionsTab}
+                    activateStocksTab={activateStocksTab}
+                  />
+                )}
               </HStack>
               <TabPanels>
                 <TradesPanel asset="Options" table={optionTradesTable} />

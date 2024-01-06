@@ -8,20 +8,21 @@ import { createStockTrade } from '../../../../../api/stockTrades'
 import CustomModal from '../../../../../components/CustomModal'
 import StockTradeForm from '../../../../../components/StockTradeForm'
 
-const StockTradeMenuItem = ({ strategyId }: { strategyId: string }) => {
+const StockTradeMenuItem = ({
+  strategyId,
+  activateTab,
+}: {
+  strategyId: string
+  activateTab: () => void
+}) => {
   const queryClient = useQueryClient()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   // Form control
-  const {
-    register: stockFormRegister,
-    handleSubmit: stockFormHandleSubmit,
-    setValue: setStockFormValue,
-    reset: resetStockForm,
-    getValues: getStockFormValues,
-  } = useForm<CreateStockTradeDto>()
+  const { register, handleSubmit, setValue, reset } =
+    useForm<CreateStockTradeDto>()
 
-  const stockTradesMutation = useMutation({
+  const mutation = useMutation({
     mutationFn: (dto: CreateStockTradeDto) => {
       return createStockTrade(strategyId, dto)
     },
@@ -29,8 +30,30 @@ const StockTradeMenuItem = ({ strategyId }: { strategyId: string }) => {
       queryClient.invalidateQueries({ queryKey: ['strategies', strategyId] })
     },
   })
-  const onStockFormSubmit: SubmitHandler<CreateStockTradeDto> = (data) => {
-    stockTradesMutation.mutate(data)
+  const onSubmit: SubmitHandler<CreateStockTradeDto> = (data) => {
+    const amendedData = { ...data }
+    const { quantity, openDate, closeDate } = data
+    // Fill in position
+    const position = data.position ?? (quantity < 0 ? 'SHORT' : 'LONG')
+    console.log(position)
+    amendedData.quantity = Math.abs(quantity)
+    amendedData.position = position
+
+    // Format dates
+    amendedData.openDate = parse(
+      openDate,
+      'yyyy-MM-dd',
+      new Date(),
+    ).toISOString()
+    if (closeDate) {
+      amendedData.closeDate = parse(
+        closeDate,
+        'yyyy-MM-dd',
+        new Date(),
+      ).toISOString()
+    }
+
+    mutation.mutate(amendedData)
   }
 
   return (
@@ -45,41 +68,17 @@ const StockTradeMenuItem = ({ strategyId }: { strategyId: string }) => {
         secondaryText="Cancel"
         secondaryAction={() => {
           onClose()
-          resetStockForm()
+          reset()
         }}
         primaryAction={() => {
-          // Fill in position
-          const quantity = getStockFormValues('quantity')
-          const position = quantity < 0 ? 'SHORT' : 'LONG'
-          setStockFormValue('quantity', Math.abs(quantity))
-          setStockFormValue('position', position)
-
-          // Format dates
-          const openDate = getStockFormValues('openDate')
-          setStockFormValue(
-            'openDate',
-            parse(openDate, 'yyyy-MM-dd', new Date()).toISOString(),
-          )
-
-          const closeDate = getStockFormValues('closeDate')
-          if (closeDate) {
-            setStockFormValue(
-              'closeDate',
-              parse(closeDate, 'yyyy-MM-dd', new Date()).toISOString(),
-            )
-          }
-
-          // Submit
-          stockFormHandleSubmit(onStockFormSubmit)()
-          resetStockForm()
+          handleSubmit(onSubmit)()
+          reset()
+          activateTab()
         }}
         isOpen={isOpen}
         onClose={onClose}
         bodyElement={
-          <StockTradeForm
-            registerFn={stockFormRegister}
-            setValue={setStockFormValue}
-          />
+          <StockTradeForm registerFn={register} setValue={setValue} />
         }
       />
     </>
