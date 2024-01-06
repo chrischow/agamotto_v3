@@ -65,11 +65,11 @@ const StrategyFormInModal = () => {
               trades.
             </Text>
             <FormControl mt={8} isRequired>
-              <FormLabel>Name Your Strategy</FormLabel>
+              <FormLabel>Name the strategy</FormLabel>
               <Input type="text" value={name} onChange={handleNameChange} />
             </FormControl>
-            <FormControl mt={4} isRequired>
-              <FormLabel>Describe it</FormLabel>
+            <FormControl mt={4}>
+              <FormLabel>Describe the strategy</FormLabel>
               <Textarea
                 value={description}
                 onChange={handleDescriptionChange}
