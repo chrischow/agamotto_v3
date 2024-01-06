@@ -21,50 +21,12 @@ export class StockTradeSubscriber
   }
 
   async afterInsert(event: InsertEvent<StockTrade>): Promise<void> {
-    /**
-     * Incrementally update account
-     */
-    const { manager, entity } = event
-    const accountRepo = manager.getRepository(Account)
-
     // Retrieve the account
+    const { manager, entity } = event
     const userId = await getUserId(entity.id, manager, 'stock')
-    const account = await accountRepo.findOne({
-      where: { id: userId },
-    })
 
-    // Data to update
-    const positionMultiplier = entity.position === 'LONG' ? 1 : -1
-
-    // Logging of a completed option trade
-    if (entity.closePrice != null) {
-      await accountRepo.update(
-        { id: userId },
-        {
-          openStocksProfit:
-            account.openStocksProfit +
-            entity.openPrice * entity.quantity * positionMultiplier,
-          realisedStocksProfit:
-            account.realisedOptionsProfit +
-            (entity.closePrice - entity.openPrice) *
-              entity.quantity *
-              positionMultiplier,
-          numberOfOpenStockTrades: account.numberOfOpenStockTrades - 1,
-          numberOfClosedStockTrades: account.numberOfClosedStockTrades + 1,
-        },
-      )
-    } else {
-      // Logging of an open option trade
-      await accountRepo.update(
-        { id: userId },
-        {
-          openStocksProfit:
-            account.openOptionsProfit -
-            entity.openPrice * entity.quantity * positionMultiplier,
-          numberOfOpenStockTrades: account.numberOfOpenStockTrades + 1,
-        },
-      )
-    }
+    // Re-compute stats and save
+    await recomputeAndSaveAccountStats(userId, manager)
   }
 
   async afterUpdate(event: UpdateEvent<OptionTrade>): Promise<void> {
