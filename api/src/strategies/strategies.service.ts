@@ -156,6 +156,11 @@ export class StrategiesService {
   }
 
   async deleteStrategy(id: string) {
-    await this.strategyRepo.softDelete({ id })
+    const strategy = await this.strategyRepo.findOne({
+      where: { id },
+      relations: { optionTrades: true, stockTrades: true },
+    })
+
+    await this.strategyRepo.softRemove(strategy)
   }
 }
