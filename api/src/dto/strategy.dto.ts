@@ -12,6 +12,11 @@ export class CreateStrategyRequestDto {
   description: string
 }
 
+export interface CreateStrategyResponseDto {
+  message: string
+  id: string
+}
+
 export class UpdateStrategyRequestDto {
   @IsOptional()
   @IsString()

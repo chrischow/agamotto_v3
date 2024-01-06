@@ -142,8 +142,13 @@ export class StrategiesService {
     })
   }
 
-  async createStrategy(userId: string, dto: CreateStrategyRequestDto) {
-    await this.strategyRepo.insert({ ...dto, userId })
+  async createStrategy(
+    userId: string,
+    dto: CreateStrategyRequestDto,
+  ): Promise<string> {
+    const newStrategy = this.strategyRepo.create({ ...dto, userId })
+    await this.strategyRepo.save(newStrategy)
+    return newStrategy.id
   }
 
   async updateStrategy(id: string, dto: UpdateStrategyRequestDto) {
