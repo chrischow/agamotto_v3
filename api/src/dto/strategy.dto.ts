@@ -33,8 +33,7 @@ export interface StrategySummaryResponse {
   description?: string
   numOptionTrades: number
   numStockTrades: number
-  optionsProfit: number
-  stocksProfit: number
+  totalProfit: number
   executedAt: string
   lastActivity: string
 }

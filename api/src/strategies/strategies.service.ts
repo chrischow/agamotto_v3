@@ -53,7 +53,7 @@ export class StrategiesService {
       const { id, name, description, optionTrades, stockTrades } = strategy
       let executedAt: Date = undefined
       let lastActivity: Date = undefined
-      let optionsProfit = 0
+      let totalProfit = 0
       for (const optionTrade of optionTrades) {
         const {
           closeDate,
@@ -65,7 +65,7 @@ export class StrategiesService {
         } = optionTrade
         const positionMultiplier = position === 'LONG' ? 1 : -1
         if (closeDate != null && closePrice != null) {
-          optionsProfit +=
+          totalProfit +=
             (closePrice - openPrice) * positionMultiplier * quantity * 100
         }
 
@@ -90,7 +90,6 @@ export class StrategiesService {
         }
       }
 
-      let stocksProfit = 0
       for (const stockTrade of stockTrades) {
         const {
           closeDate,
@@ -102,7 +101,7 @@ export class StrategiesService {
         } = stockTrade
         const positionMultiplier = position === 'LONG' ? 1 : -1
         if (closeDate != null && closePrice != null) {
-          stocksProfit +=
+          totalProfit +=
             (closePrice - openPrice) * positionMultiplier * quantity
         }
         // Update executed date
@@ -132,8 +131,7 @@ export class StrategiesService {
         description,
         numOptionTrades: optionTrades.length,
         numStockTrades: stockTrades.length,
-        optionsProfit,
-        stocksProfit,
+        totalProfit,
         executedAt: executedAt.toISOString(),
         lastActivity: lastActivity.toISOString(),
       }
