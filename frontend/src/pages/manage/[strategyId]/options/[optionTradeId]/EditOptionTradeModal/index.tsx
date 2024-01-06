@@ -25,15 +25,15 @@ const EditOptionTradeModal = ({
   const defaultValues = {
     ticker: data.ticker,
     instrument: data.instrument,
-    expiry: format(new Date(data.expiry), 'd/MM/yyyy'),
+    expiry: format(new Date(data.expiry), 'yyyy-MM-dd'),
     strike: data.strike,
     position: data.position,
     quantity: data.quantity * (data.position === 'LONG' ? 1 : -1),
-    openDate: format(new Date(data.openDate), 'd/MM/yyyy'),
+    openDate: format(new Date(data.openDate), 'yyyy-MM-dd'),
     openPrice: data.openPrice,
     openDelta: data.openDelta,
     closeDate: data.closeDate
-      ? format(new Date(data.closeDate), 'd/MM/yyyy')
+      ? format(new Date(data.closeDate), 'yyyy-MM-dd')
       : undefined,
     closePrice: data.closePrice,
     closeDelta: data.closeDelta,
@@ -51,17 +51,17 @@ const EditOptionTradeModal = ({
   useEffect(() => {
     setValue('ticker', data.ticker)
     setValue('instrument', data.instrument)
-    setValue('expiry', format(new Date(data.expiry), 'd/MM/yyyy'))
+    setValue('expiry', format(new Date(data.expiry), 'yyyy-MM-dd'))
     setValue('strike', data.strike)
     setValue('position', data.position)
     setValue('quantity', data.quantity * (data.position === 'LONG' ? 1 : -1))
-    setValue('openDate', format(new Date(data.openDate), 'd/MM/yyyy'))
+    setValue('openDate', format(new Date(data.openDate), 'yyyy-MM-dd'))
     setValue('openPrice', data.openPrice)
     setValue('openDelta', data.openDelta)
     setValue(
       'closeDate',
       data.closeDate
-        ? format(new Date(data.closeDate), 'd/MM/yyyy')
+        ? format(new Date(data.closeDate), 'yyyy-MM-dd')
         : undefined,
     )
     setValue('closePrice', data.closePrice)

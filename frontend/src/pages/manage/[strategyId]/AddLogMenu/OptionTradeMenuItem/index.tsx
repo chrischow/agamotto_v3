@@ -54,18 +54,18 @@ const OptionTradeMenuItem = ({ strategyId }: { strategyId: string }) => {
           const expiry = getValues('expiry')
           setValue(
             'openDate',
-            parse(openDate, 'dd/MM/yyyy', new Date()).toISOString(),
+            parse(openDate, 'yyyy-MM-dd', new Date()).toISOString(),
           )
           setValue(
             'expiry',
-            parse(expiry, 'dd/MM/yyyy', new Date()).toISOString(),
+            parse(expiry, 'yyyy-MM-dd', new Date()).toISOString(),
           )
 
           const closeDate = getValues('closeDate')
           if (closeDate) {
             setValue(
               'closeDate',
-              parse(closeDate, 'dd/MM/yyyy', new Date()).toISOString(),
+              parse(closeDate, 'yyyy-MM-dd', new Date()).toISOString(),
             )
           }
 

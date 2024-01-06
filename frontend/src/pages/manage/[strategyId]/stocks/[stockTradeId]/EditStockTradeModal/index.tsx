@@ -26,10 +26,10 @@ const EditStockTradeModal = ({
     ticker: data.ticker,
     position: data.position,
     quantity: data.quantity * (data.position === 'LONG' ? 1 : -1),
-    openDate: format(new Date(data.openDate), 'd/MM/yyyy'),
+    openDate: format(new Date(data.openDate), 'yyyy-MM-dd'),
     openPrice: data.openPrice,
     closeDate: data.closeDate
-      ? format(new Date(data.closeDate), 'd/MM/yyyy')
+      ? format(new Date(data.closeDate), 'yyyy-MM-dd')
       : undefined,
     closePrice: data.closePrice,
     remarks: data.remarks,
@@ -47,12 +47,12 @@ const EditStockTradeModal = ({
     setValue('ticker', data.ticker)
     setValue('position', data.position)
     setValue('quantity', data.quantity * (data.position === 'LONG' ? 1 : -1))
-    setValue('openDate', format(new Date(data.openDate), 'd/MM/yyyy'))
+    setValue('openDate', format(new Date(data.openDate), 'yyyy-MM-dd'))
     setValue('openPrice', data.openPrice)
     setValue(
       'closeDate',
       data.closeDate
-        ? format(new Date(data.closeDate), 'd/MM/yyyy')
+        ? format(new Date(data.closeDate), 'yyyy-MM-dd')
         : undefined,
     )
     setValue('remarks', data.remarks)
