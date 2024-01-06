@@ -30,6 +30,7 @@ const StrategiesTable = () => {
     columns: strategiesTableColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    initialState: { pagination: { pageSize: 50 } },
   })
 
   return <CustomTable table={table} />
