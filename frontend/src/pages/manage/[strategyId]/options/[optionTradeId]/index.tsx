@@ -1,4 +1,5 @@
 import {
+  Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -130,6 +131,13 @@ const OptionTradeDetailPage = () => {
               />
             )}
           </SimpleGrid>
+          <Box mt={4}>
+            <InfoCard
+              label="Remarks"
+              content={data.remarks ? data.remarks : '-'}
+              isMaxWidth
+            />
+          </Box>
           <Heading size="lg" mt={6}>
             Transaction Details
           </Heading>
