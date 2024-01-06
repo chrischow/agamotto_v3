@@ -37,6 +37,7 @@ const EditOptionTradeModal = ({
       : undefined,
     closePrice: data.closePrice,
     closeDelta: data.closeDelta,
+    remarks: data.remarks,
   }
   const { isOpen, onOpen, onClose } = useDisclosure()
   const queryClient = useQueryClient()
@@ -65,6 +66,7 @@ const EditOptionTradeModal = ({
     )
     setValue('closePrice', data.closePrice)
     setValue('closeDelta', data.closeDelta)
+    setValue('remarks', data.remarks)
   }, [data])
 
   const mutation = useMutation({

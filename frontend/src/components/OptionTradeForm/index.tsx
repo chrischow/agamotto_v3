@@ -252,7 +252,10 @@ const OptionTradeForm = ({
       )}
       <FormControl mt={4}>
         <FormLabel>Remarks (Optional)</FormLabel>
-        <Textarea focusBorderColor="purple.400"></Textarea>
+        <Textarea
+          focusBorderColor="purple.400"
+          {...registerFn('remarks')}
+        ></Textarea>
       </FormControl>
     </>
   )
