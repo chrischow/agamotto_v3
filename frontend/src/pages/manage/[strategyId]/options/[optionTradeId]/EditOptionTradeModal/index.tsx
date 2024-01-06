@@ -43,7 +43,7 @@ const EditOptionTradeModal = ({
   const queryClient = useQueryClient()
 
   // Form control
-  const { register, handleSubmit, setValue, reset, getValues } =
+  const { register, handleSubmit, setValue, reset } =
     useForm<CreateOptionTradeDto>({
       defaultValues,
     })
@@ -80,7 +80,31 @@ const EditOptionTradeModal = ({
     },
   })
   const onSubmit: SubmitHandler<CreateOptionTradeDto> = (data) => {
-    mutation.mutate(data)
+    const amendedData = { ...data }
+
+    // Fill in position
+    const { quantity, openDate, expiry, closeDate } = data
+    const position = data.position ?? (quantity < 0 ? 'SHORT' : 'LONG')
+    amendedData.quantity = Math.abs(quantity)
+    amendedData.position = position
+
+    // Format dates
+    amendedData.openDate = parse(
+      openDate,
+      'yyyy-MM-dd',
+      new Date(),
+    ).toISOString()
+    amendedData.expiry = parse(expiry, 'yyyy-MM-dd', new Date()).toISOString()
+
+    if (closeDate) {
+      amendedData.closeDate = parse(
+        closeDate,
+        'yyyy-MM-dd',
+        new Date(),
+      ).toISOString()
+    }
+
+    mutation.mutate(amendedData)
   }
 
   return (
@@ -94,34 +118,6 @@ const EditOptionTradeModal = ({
         primaryText="Save Changes"
         secondaryText="Cancel"
         primaryAction={() => {
-          // Fill in position
-          const quantity = getValues('quantity')
-          const position = quantity < 0 ? 'SHORT' : 'LONG'
-          setValue('quantity', Math.abs(quantity))
-          setValue('position', position)
-
-          // Format dates
-          const openDate = getValues('openDate')
-          const expiry = getValues('expiry')
-
-          setValue(
-            'openDate',
-            parse(openDate, 'd/MM/yyyy', new Date()).toISOString(),
-          )
-          setValue(
-            'expiry',
-            parse(expiry, 'd/MM/yyyy', new Date()).toISOString(),
-          )
-
-          const closeDate = getValues('closeDate')
-          if (closeDate) {
-            setValue(
-              'closeDate',
-              parse(closeDate, 'd/MM/yyyy', new Date()).toISOString(),
-            )
-          }
-
-          // Submit
           handleSubmit(onSubmit)()
           reset()
         }}
