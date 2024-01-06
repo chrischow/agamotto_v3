@@ -26,12 +26,12 @@ export class Strategy {
   description?: string
 
   @OneToMany(() => OptionTrade, (optionTrade) => optionTrade.strategy, {
-    onDelete: 'CASCADE',
+    cascade: true,
   })
   optionTrades: OptionTrade[]
 
   @OneToMany(() => StockTrade, (stockTrade) => stockTrade.strategy, {
-    onDelete: 'CASCADE',
+    cascade: true,
   })
   stockTrades: StockTrade[]
 
