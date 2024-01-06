@@ -11,12 +11,14 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { FormEvent, useState } from 'react'
 import { IoMdAdd } from 'react-icons/io'
+import { useNavigate } from 'react-router-dom'
 
 import { CreateStrategyRequestDto } from '../../../../../api/src/dto/strategy.dto'
 import { createStrategy } from '../../../api/strategies'
 import CustomModal from '../../../components/CustomModal'
 
 const StrategyFormInModal = () => {
+  const navigate = useNavigate()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -31,8 +33,9 @@ const StrategyFormInModal = () => {
 
   const queryClient = useQueryClient()
   const mutation = useMutation({
-    mutationFn: (dto: CreateStrategyRequestDto) => {
-      return createStrategy(dto)
+    mutationFn: async (dto: CreateStrategyRequestDto) => {
+      const result = await createStrategy(dto)
+      navigate(`/manage/${result.id}`)
     },
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: ['strategies'] }),

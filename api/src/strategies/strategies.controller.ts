@@ -27,6 +27,7 @@ import {
 } from '../dto/stock-trade.dto'
 import {
   CreateStrategyRequestDto,
+  CreateStrategyResponseDto,
   GetAllStrategiesResponseDto,
   GetOptionTradesForStrategyResponseDto,
   GetStockTradesForStrategyResponseDto,
@@ -77,13 +78,16 @@ export class StrategiesController {
   async createStrategy(
     @SessionUser() user: User | null,
     @Body() dto: CreateStrategyRequestDto,
-  ) {
+  ): Promise<CreateStrategyResponseDto> {
     if (!user) {
       throw new UnauthorizedException()
     }
     try {
-      await this.strategiesService.createStrategy(user.id, dto)
-      return { message: 'Created strategy.' }
+      const newStrategyId = await this.strategiesService.createStrategy(
+        user.id,
+        dto,
+      )
+      return { message: 'Created strategy.', id: newStrategyId }
     } catch (error) {
       console.error(error)
       throw new InternalServerErrorException()
