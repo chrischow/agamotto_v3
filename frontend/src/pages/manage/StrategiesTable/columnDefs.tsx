@@ -39,8 +39,8 @@ export const strategiesTableColumns = [
     cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
     header: 'Stock Trades',
   }),
-  columnHelper.accessor('createdAt', {
+  columnHelper.accessor('executedAt', {
     cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
-    header: 'Created',
+    header: 'Executed',
   }),
 ]
