@@ -20,6 +20,7 @@ export const strategiesTableColumns = [
       </Link>
     ),
     header: 'Name',
+    enableMultiSort: true,
   }),
   columnHelper.display({
     cell: (info) => (
@@ -34,17 +35,21 @@ export const strategiesTableColumns = [
   columnHelper.accessor('numOptionTrades', {
     cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
     header: 'Option Trades',
+    enableMultiSort: true,
   }),
   columnHelper.accessor('numStockTrades', {
     cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
     header: 'Stock Trades',
+    enableMultiSort: true,
   }),
   columnHelper.accessor('executedAt', {
     cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
     header: 'Executed',
+    enableMultiSort: true,
   }),
   columnHelper.accessor('lastActivity', {
     cell: (info) => format(new Date(info.getValue()), 'd MMM yyyy'),
     header: 'Last Activity',
+    enableMultiSort: true,
   }),
 ]
