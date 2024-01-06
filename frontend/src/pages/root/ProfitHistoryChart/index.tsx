@@ -35,7 +35,7 @@ export const options = {
   },
   scales: {
     x: {
-      type: 'timeseries' as const,
+      type: 'time' as const,
       time: {
         unit: 'month' as const,
       },
