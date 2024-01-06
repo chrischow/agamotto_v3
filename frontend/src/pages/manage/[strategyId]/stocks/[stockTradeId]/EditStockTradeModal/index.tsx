@@ -32,6 +32,7 @@ const EditStockTradeModal = ({
       ? format(new Date(data.closeDate), 'd/MM/yyyy')
       : undefined,
     closePrice: data.closePrice,
+    remarks: data.remarks,
   }
   const { isOpen, onOpen, onClose } = useDisclosure()
   const queryClient = useQueryClient()
@@ -54,6 +55,7 @@ const EditStockTradeModal = ({
         ? format(new Date(data.closeDate), 'd/MM/yyyy')
         : undefined,
     )
+    setValue('remarks', data.remarks)
     setValue('closePrice', data.closePrice)
   }, [data])
 
