@@ -125,8 +125,7 @@ export class AccountService {
 
       // History
       if (closePrice != null && closeDate != null) {
-        const profit =
-          (closePrice - openPrice) * positionMultiplier * quantity * 100
+        const profit = (closePrice - openPrice) * positionMultiplier * quantity
         const dateStr = `${format(closeDate, 'yyyy-MM')}-01`
         if (!(dateStr in profitHistory)) {
           profitHistory[dateStr] = 0
