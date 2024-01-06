@@ -28,10 +28,10 @@ export class StrategiesService {
         id: true,
         name: true,
         description: true,
-        createdAt: true,
         optionTrades: {
           id: true,
           openPrice: true,
+          openDate: true,
           closeDate: true,
           closePrice: true,
           quantity: true,
@@ -40,39 +40,63 @@ export class StrategiesService {
         stockTrades: {
           id: true,
           openPrice: true,
+          openDate: true,
           closeDate: true,
           closePrice: true,
           quantity: true,
           position: true,
         },
       },
-      order: {
-        createdAt: 'DESC',
-      },
     })
 
     const strategies = allStrategies.map((strategy) => {
-      const { id, name, description, createdAt, optionTrades, stockTrades } =
-        strategy
+      const { id, name, description, optionTrades, stockTrades } = strategy
+      let executedAt: Date = new Date()
       let optionsProfit = 0
       for (const optionTrade of optionTrades) {
-        const { closeDate, closePrice, openPrice, quantity, position } =
-          optionTrade
+        const {
+          closeDate,
+          closePrice,
+          openPrice,
+          quantity,
+          position,
+          openDate,
+        } = optionTrade
         const positionMultiplier = position === 'LONG' ? 1 : -1
         if (closeDate != null && closePrice != null) {
           optionsProfit +=
             (closePrice - openPrice) * positionMultiplier * quantity * 100
         }
+        // Update executed date
+        if (
+          (executedAt && openDate.getTime() < executedAt.getTime()) ||
+          !executedAt
+        ) {
+          executedAt = openDate
+        }
       }
 
       let stocksProfit = 0
       for (const stockTrade of stockTrades) {
-        const { closeDate, closePrice, openPrice, quantity, position } =
-          stockTrade
+        const {
+          closeDate,
+          closePrice,
+          openPrice,
+          quantity,
+          position,
+          openDate,
+        } = stockTrade
         const positionMultiplier = position === 'LONG' ? 1 : -1
         if (closeDate != null && closePrice != null) {
           stocksProfit +=
             (closePrice - openPrice) * positionMultiplier * quantity
+        }
+        // Update executed date
+        if (
+          (executedAt && openDate.getTime() < executedAt.getTime()) ||
+          !executedAt
+        ) {
+          executedAt = openDate
         }
       }
 
@@ -84,8 +108,12 @@ export class StrategiesService {
         numStockTrades: stockTrades.length,
         optionsProfit,
         stocksProfit,
-        createdAt: createdAt.toISOString(),
+        executedAt: executedAt.toISOString(),
       }
+    })
+
+    strategies.sort((a, b) => {
+      return new Date(b.executedAt).getTime() - new Date(a.executedAt).getTime()
     })
 
     return { strategies }

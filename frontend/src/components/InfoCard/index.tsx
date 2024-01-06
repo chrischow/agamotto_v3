@@ -4,13 +4,15 @@ const InfoCard = ({
   label,
   content,
   isNumeric = false,
+  isMaxWidth = false,
 }: {
   label: string
   content: string
   isNumeric?: boolean
+  isMaxWidth?: boolean
 }) => {
   return (
-    <VStack width="250px" alignItems="start">
+    <VStack width={isMaxWidth ? undefined : '250px'} alignItems="start">
       <Text
         textTransform="uppercase"
         letterSpacing="0.2rem"

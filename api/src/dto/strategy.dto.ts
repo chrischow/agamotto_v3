@@ -29,7 +29,7 @@ export interface StrategySummaryResponse {
   numStockTrades: number
   optionsProfit: number
   stocksProfit: number
-  createdAt: string
+  executedAt: string
 }
 
 export interface GetAllStrategiesResponseDto {

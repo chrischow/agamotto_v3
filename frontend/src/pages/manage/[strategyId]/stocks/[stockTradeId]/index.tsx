@@ -1,4 +1,5 @@
 import {
+  Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -98,7 +99,7 @@ const StockTradeDetailPage = () => {
               stockTradeId={stockTradeId}
             />
           </HStack>
-          <SimpleGrid width="100%" mt={6} columns={3} spacing={8}>
+          <SimpleGrid width="100%" mt={6} columns={4} spacing={6}>
             <InfoCard label="Ticker" content={data.ticker} />
             <InfoCard label="Position" content={data.position} />
             <InfoCard
@@ -114,6 +115,13 @@ const StockTradeDetailPage = () => {
               />
             )}
           </SimpleGrid>
+          <Box mt={4}>
+            <InfoCard
+              label="Remarks"
+              content={data.remarks ? data.remarks : '-'}
+              isMaxWidth
+            />
+          </Box>
           <Heading size="lg" mt={6}>
             Transaction Details
           </Heading>
@@ -142,7 +150,7 @@ const StockTradeDetailPage = () => {
                     {currencyFormatter.format(data.openPrice)}
                   </Td>
                   <Td fontFamily="mono">
-                    {data.closePrice
+                    {data.closePrice != null
                       ? currencyFormatter.format(data.closePrice)
                       : '-'}
                   </Td>
