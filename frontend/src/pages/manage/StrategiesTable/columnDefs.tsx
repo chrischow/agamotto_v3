@@ -22,15 +22,14 @@ export const strategiesTableColumns = [
     header: 'Name',
     enableMultiSort: true,
   }),
-  columnHelper.display({
+  columnHelper.accessor('totalProfit', {
     cell: (info) => (
       <Text fontFamily="mono">
-        {currencyFormatter.format(
-          info.row.original.optionsProfit + info.row.original.stocksProfit,
-        )}
+        {currencyFormatter.format(info.row.original.totalProfit)}
       </Text>
     ),
     header: 'Total Profit',
+    enableMultiSort: true,
   }),
   columnHelper.accessor('numOptionTrades', {
     cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
