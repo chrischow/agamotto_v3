@@ -15,6 +15,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
@@ -115,18 +117,40 @@ const StrategyDetailPage = () => {
   }
 
   // Tables
+  const [optionSortState, setOptionSortState] = useState<SortingState>([])
+  const [stockSortState, setStockSortState] = useState<SortingState>([])
   const optionTradesTable = useReactTable({
     data: optionTrades,
     columns: optionTradesTableColumns,
+    state: {
+      sorting: optionSortState,
+    },
+    initialState: {
+      pagination: {
+        pageSize: 20,
+      },
+    },
+    onSortingChange: setOptionSortState,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   })
 
   const stockTradesTable = useReactTable({
     data: stockTrades,
     columns: stockTradesTableColumns,
+    state: {
+      sorting: stockSortState,
+    },
+    initialState: {
+      pagination: {
+        pageSize: 20,
+      },
+    },
+    onSortingChange: setStockSortState,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   })
 
   return (
