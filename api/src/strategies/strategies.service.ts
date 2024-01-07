@@ -28,6 +28,10 @@ export class StrategiesService {
         id: true,
         name: true,
         description: true,
+        openOptionsProfit: true,
+        openStocksProfit: true,
+        realisedOptionsProfit: true,
+        realisedStocksProfit: true,
         optionTrades: {
           id: true,
           openPrice: true,
@@ -50,24 +54,23 @@ export class StrategiesService {
     })
 
     const strategies = allStrategies.map((strategy) => {
-      const { id, name, description, optionTrades, stockTrades } = strategy
+      const {
+        id,
+        name,
+        description,
+        optionTrades,
+        stockTrades,
+        openOptionsProfit,
+        openStocksProfit,
+        realisedOptionsProfit,
+        realisedStocksProfit,
+      } = strategy
+
       let executedAt: Date = undefined
       let lastActivity: Date = undefined
-      let totalProfit = 0
+      // let totalProfit = 0
       for (const optionTrade of optionTrades) {
-        const {
-          closeDate,
-          closePrice,
-          openPrice,
-          quantity,
-          position,
-          openDate,
-        } = optionTrade
-        const positionMultiplier = position === 'LONG' ? 1 : -1
-        if (closeDate != null && closePrice != null) {
-          totalProfit +=
-            (closePrice - openPrice) * positionMultiplier * quantity * 100
-        }
+        const { closeDate, openDate } = optionTrade
 
         // Update executed date
         if (!executedAt) {
@@ -91,19 +94,7 @@ export class StrategiesService {
       }
 
       for (const stockTrade of stockTrades) {
-        const {
-          closeDate,
-          closePrice,
-          openPrice,
-          quantity,
-          position,
-          openDate,
-        } = stockTrade
-        const positionMultiplier = position === 'LONG' ? 1 : -1
-        if (closeDate != null && closePrice != null) {
-          totalProfit +=
-            (closePrice - openPrice) * positionMultiplier * quantity
-        }
+        const { closeDate, openDate } = stockTrade
         // Update executed date
         if (!executedAt) {
           executedAt = openDate
@@ -131,7 +122,8 @@ export class StrategiesService {
         description,
         numOptionTrades: optionTrades.length,
         numStockTrades: stockTrades.length,
-        totalProfit,
+        totalOpenProfit: openOptionsProfit + openStocksProfit,
+        totalRealisedProfit: realisedOptionsProfit + realisedStocksProfit,
         executedAt: executedAt.toISOString(),
         lastActivity: lastActivity.toISOString(),
       }

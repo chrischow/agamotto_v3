@@ -21,13 +21,21 @@ export const strategiesTableColumns = [
     ),
     header: 'Name',
   }),
-  columnHelper.accessor('totalProfit', {
+  columnHelper.accessor('totalRealisedProfit', {
     cell: (info) => (
       <Text fontFamily="mono">
-        {currencyFormatter.format(info.row.original.totalProfit)}
+        {currencyFormatter.format(info.row.original.totalRealisedProfit)}
       </Text>
     ),
-    header: 'Total Profit',
+    header: 'Realised Profit',
+  }),
+  columnHelper.accessor('totalOpenProfit', {
+    cell: (info) => (
+      <Text fontFamily="mono">
+        {currencyFormatter.format(info.row.original.totalOpenProfit)}
+      </Text>
+    ),
+    header: 'Open Profit',
   }),
   columnHelper.accessor('numOptionTrades', {
     cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
