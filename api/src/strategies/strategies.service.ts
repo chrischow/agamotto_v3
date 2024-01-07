@@ -9,13 +9,26 @@ import {
   GetStrategyResponseDto,
   UpdateStrategyRequestDto,
 } from '../dto/strategy.dto'
+import { OptionTradesService } from '../option-trades/option-trades.service'
+import { StockTradesService } from '../stock-trades/stock-trades.service'
 
 @Injectable()
 export class StrategiesService {
   constructor(
     @InjectRepository(Strategy)
     private readonly strategyRepo: Repository<Strategy>,
+    private readonly optionTradesService: OptionTradesService,
+    private readonly stockTradesService: StockTradesService,
   ) {}
+  async getAllStrategiesWithTrades(userId: string) {
+    return await this.strategyRepo.find({
+      where: { userId },
+      relations: {
+        optionTrades: true,
+        stockTrades: true,
+      },
+    })
+  }
 
   async getAllStrategies(userId: string): Promise<GetAllStrategiesResponseDto> {
     const allStrategies = await this.strategyRepo.find({
@@ -197,5 +210,43 @@ export class StrategiesService {
     })
 
     await this.strategyRepo.softRemove(strategy)
+  }
+
+  async updateAllStrategyStats(userId: string) {
+    const strategies = await this.getAllStrategiesWithTrades(userId)
+    for (const strategy of strategies) {
+      const {
+        openOptionsProfit,
+        realisedOptionsProfit,
+        numOpenPuts,
+        numClosedPuts,
+        numOpenCalls,
+        numClosedCalls,
+      } = this.optionTradesService.computeOptionTradesStats(
+        strategy.optionTrades,
+      )
+
+      const {
+        openStocksProfit,
+        realisedStocksProfit,
+        numOpenStockTrades,
+        numClosedStockTrades,
+      } = this.stockTradesService.computeStockTradesStats(strategy.stockTrades)
+
+      strategy.openOptionsProfit = Math.round(openOptionsProfit * 100) / 100
+      strategy.realisedOptionsProfit =
+        Math.round(realisedOptionsProfit * 100) / 100
+      strategy.openStocksProfit = Math.round(openStocksProfit * 100) / 100
+      strategy.realisedStocksProfit =
+        Math.round(realisedStocksProfit * 100) / 100
+      strategy.numOpenPuts = numOpenPuts
+      strategy.numClosedPuts = numClosedPuts
+      strategy.numOpenCalls = numOpenCalls
+      strategy.numClosedCalls = numClosedCalls
+      strategy.numOpenStockTrades = numOpenStockTrades
+      strategy.numClosedStockTrades = numClosedStockTrades
+
+      await this.strategyRepo.save(strategy)
+    }
   }
 }

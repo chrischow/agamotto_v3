@@ -33,3 +33,7 @@ export const updateStrategy = async (
 export const deleteStrategy = async (strategyId: string) => {
   return await deleteQuery(`strategies/${strategyId}`)
 }
+
+export const updateAllStrategyStats = async () => {
+  return await post(`strategies/update`, {})
+}
