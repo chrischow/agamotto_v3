@@ -168,7 +168,7 @@ const StrategyDetailPage = () => {
             </BreadcrumbItem>
             <BreadcrumbItem isCurrentPage>
               <BreadcrumbLink color="gray.600" href="#">
-                Current Strategy
+                Strategy
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
