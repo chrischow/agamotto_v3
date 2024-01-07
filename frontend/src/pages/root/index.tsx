@@ -47,15 +47,11 @@ const Dashboard = () => {
                 />
                 <MetricCard
                   label="Open Positions"
-                  stat={(
-                    data.numberOfOpenPutTrades + data.numberOfOpenCallTrades
-                  ).toString()}
+                  stat={(data.numOpenPuts + data.numOpenCalls).toString()}
                 />
                 <MetricCard
                   label="Closed Positions"
-                  stat={(
-                    data.numberOfClosedPutTrades + data.numberOfClosedCallTrades
-                  ).toString()}
+                  stat={(data.numClosedPuts + data.numClosedCalls).toString()}
                 />
               </SimpleGrid>
             </Box>
@@ -74,11 +70,11 @@ const Dashboard = () => {
                 />
                 <MetricCard
                   label="Open Positions"
-                  stat={data.numberOfOpenStockTrades.toString()}
+                  stat={data.numOpenStockTrades.toString()}
                 />
                 <MetricCard
                   label="Closed Positions"
-                  stat={data.numberOfClosedStockTrades.toString()}
+                  stat={data.numClosedStockTrades.toString()}
                 />
               </SimpleGrid>
             </Box>

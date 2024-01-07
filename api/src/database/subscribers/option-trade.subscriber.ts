@@ -7,9 +7,11 @@ import {
   UpdateEvent,
 } from 'typeorm'
 
-import { Account } from '../entities/account.entity'
 import { OptionTrade } from '../entities/option-trade.entity'
-import { getUserId, recomputeAndSaveAccountStats } from './utils'
+import {
+  getParentStrategyAndUserId,
+  recomputeAndSaveAccountStats,
+} from './utils'
 
 @EventSubscriber()
 export class OptionTradeSubscriber
@@ -21,7 +23,11 @@ export class OptionTradeSubscriber
   async afterInsert(event: InsertEvent<OptionTrade>): Promise<void> {
     // Retrieve the account
     const { manager, entity } = event
-    const userId = await getUserId(entity.id, manager, 'option')
+    const { userId } = await getParentStrategyAndUserId(
+      entity.id,
+      manager,
+      'option',
+    )
 
     // Re-compute stats and save
     await recomputeAndSaveAccountStats(userId, manager)
@@ -30,7 +36,11 @@ export class OptionTradeSubscriber
   async afterUpdate(event: UpdateEvent<OptionTrade>): Promise<void> {
     // Retrieve the account
     const { manager, entity } = event
-    const userId = await getUserId(entity.id as string, manager, 'option')
+    const { userId } = await getParentStrategyAndUserId(
+      entity.id as string,
+      manager,
+      'option',
+    )
 
     // Re-compute stats and save
     await recomputeAndSaveAccountStats(userId, manager)
@@ -39,7 +49,11 @@ export class OptionTradeSubscriber
   async afterRemove(event: RemoveEvent<OptionTrade>): Promise<void> {
     // Retrieve the account
     const { manager, entity } = event
-    const userId = await getUserId(entity.id, manager, 'option')
+    const { userId } = await getParentStrategyAndUserId(
+      entity.id,
+      manager,
+      'option',
+    )
 
     // Re-compute stats and save
     await recomputeAndSaveAccountStats(userId, manager)
@@ -48,7 +62,11 @@ export class OptionTradeSubscriber
   async afterSoftRemove(event: SoftRemoveEvent<OptionTrade>): Promise<void> {
     // Retrieve the account
     const { manager, entity } = event
-    const userId = await getUserId(entity.id, manager, 'option')
+    const { userId } = await getParentStrategyAndUserId(
+      entity.id,
+      manager,
+      'option',
+    )
 
     // Re-compute stats and save
     await recomputeAndSaveAccountStats(userId, manager)

@@ -4,8 +4,8 @@ export const computeStockTradesStats = (trades: StockTrade[]) => {
   const stats = {
     openStocksProfit: 0,
     realisedStocksProfit: 0,
-    numberOfOpenStockTrades: 0,
-    numberOfClosedStockTrades: 0,
+    numOpenStockTrades: 0,
+    numClosedStockTrades: 0,
   }
 
   for (const trade of trades) {
@@ -14,13 +14,13 @@ export const computeStockTradesStats = (trades: StockTrade[]) => {
     if (trade.closePrice === undefined || trade.closePrice === null) {
       stats.openStocksProfit -=
         trade.openPrice * trade.quantity * positionMultiplier
-      stats.numberOfOpenStockTrades += 1
+      stats.numOpenStockTrades += 1
     } else {
       stats.realisedStocksProfit +=
         (trade.closePrice - trade.openPrice) *
         trade.quantity *
         positionMultiplier
-      stats.numberOfClosedStockTrades += 1
+      stats.numClosedStockTrades += 1
     }
   }
 
