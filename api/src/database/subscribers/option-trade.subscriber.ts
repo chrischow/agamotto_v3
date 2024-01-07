@@ -49,7 +49,7 @@ export class OptionTradeSubscriber
     await recomputeAndSaveStrategyStats(strategyId, manager)
   }
 
-  async afterRemove(event: RemoveEvent<OptionTrade>): Promise<void> {
+  async beforeRemove(event: RemoveEvent<OptionTrade>): Promise<void> {
     // Retrieve the account
     const { manager, entity } = event
     const { userId, strategyId } = await getParentStrategyAndUserId(
@@ -63,7 +63,7 @@ export class OptionTradeSubscriber
     await recomputeAndSaveStrategyStats(strategyId, manager)
   }
 
-  async afterSoftRemove(event: SoftRemoveEvent<OptionTrade>): Promise<void> {
+  async beforeSoftRemove(event: SoftRemoveEvent<OptionTrade>): Promise<void> {
     // Retrieve the account
     const { manager, entity } = event
     const { userId, strategyId } = await getParentStrategyAndUserId(
