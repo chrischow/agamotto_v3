@@ -1,7 +1,15 @@
-import { Box, Heading, SimpleGrid } from '@chakra-ui/react'
-import { useQuery } from '@tanstack/react-query'
+import {
+  Box,
+  Heading,
+  HStack,
+  IconButton,
+  SimpleGrid,
+  Tooltip,
+} from '@chakra-ui/react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { RiRefreshLine } from 'react-icons/ri'
 
-import { getAccountDetails } from '../../api/account'
+import { getAccountDetails, updateAccountStats } from '../../api/account'
 import { currencyFormatter, getStatColor } from '../../utils'
 import MetricCard from './MetricCard'
 import ProfitHistoryChart from './ProfitHistoryChart'
@@ -13,9 +21,25 @@ const Dashboard = () => {
     queryFn: getAccountDetails,
   })
 
+  const queryClient = useQueryClient()
+
   return (
     <>
-      <Heading>Dashboard</Heading>
+      <HStack>
+        <Heading>Dashboard</Heading>
+        <Tooltip label="Update stats" hasArrow>
+          <IconButton
+            icon={<RiRefreshLine />}
+            aria-label="Update stats"
+            size="sm"
+            variant="ghost"
+            onClick={async () => {
+              await updateAccountStats()
+              queryClient.invalidateQueries({ queryKey: ['dashboard'] })
+            }}
+          />
+        </Tooltip>
+      </HStack>
       {data && (
         <>
           <SimpleGrid mt={8} width="100%" columns={2} spacing={12}>
