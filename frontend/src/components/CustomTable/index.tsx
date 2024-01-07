@@ -36,6 +36,7 @@ const CustomTable = <T,>({ table }: { table: ReactTable<T> }) => {
               <Tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   const isSortable = header.column.getCanSort()
+                  const isGroupHeader = header.subHeaders.length > 0
                   const sortDirection = header.column.getIsSorted() as string
                   let icon: ReactElement | undefined = undefined
 
@@ -87,7 +88,7 @@ const CustomTable = <T,>({ table }: { table: ReactTable<T> }) => {
                             .getContext()
                             .column.columnDef.header?.toString()}
                         </Text>
-                        {isSortable ? icon : null}
+                        {isSortable && !isGroupHeader ? icon : null}
                       </HStack>
                     </Th>
                   )
