@@ -45,6 +45,16 @@ export interface GetAllStrategiesResponseDto {
 export interface GetStrategyResponseDto {
   id: string
   name: string
+  openOptionsProfit: number
+  realisedOptionsProfit: number
+  openStocksProfit: number
+  realisedStocksProfit: number
+  numOpenPuts: number
+  numClosedPuts: number
+  numOpenCalls: number
+  numClosedCalls: number
+  numOpenStockTrades: number
+  numClosedStockTrades: number
   description?: string
   optionTrades: OptionTradeDetail[]
   stockTrades: StockTradeDetail[]

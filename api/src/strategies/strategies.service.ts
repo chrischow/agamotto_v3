@@ -160,6 +160,16 @@ export class StrategiesService {
         id: true,
         name: true,
         description: true,
+        openOptionsProfit: true,
+        realisedOptionsProfit: true,
+        openStocksProfit: true,
+        realisedStocksProfit: true,
+        numOpenPuts: true,
+        numClosedPuts: true,
+        numOpenCalls: true,
+        numClosedCalls: true,
+        numOpenStockTrades: true,
+        numClosedStockTrades: true,
       },
       order: {
         optionTrades: {
