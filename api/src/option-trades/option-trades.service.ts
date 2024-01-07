@@ -48,7 +48,7 @@ export class OptionTradesService {
 
   // Update
   async updateOptionTrade(id: string, dto: UpdateOptionTradeDto) {
-    await this.optionTradeRepo.update({ id }, dto)
+    await this.optionTradeRepo.update({ id }, { ...dto, id })
   }
 
   // Delete
