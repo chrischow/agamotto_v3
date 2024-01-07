@@ -2,7 +2,7 @@ import { Box, Heading, SimpleGrid } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 
 import { getAccountDetails } from '../../api/account'
-import { currencyFormatter } from '../../utils'
+import { currencyFormatter, getStatColor } from '../../utils'
 import MetricCard from './MetricCard'
 import ProfitHistoryChart from './ProfitHistoryChart'
 import StatsTable from './StatsTable'
@@ -12,19 +12,6 @@ const Dashboard = () => {
     queryKey: ['dashboard'],
     queryFn: getAccountDetails,
   })
-
-  const getColor = (value: number) => {
-    switch (true) {
-      case value > 0:
-        return 'teal.500'
-        break
-      case value < 0:
-        return 'red.400'
-        break
-      default:
-        return undefined
-    }
-  }
 
   return (
     <>
@@ -38,12 +25,12 @@ const Dashboard = () => {
                 <MetricCard
                   label="Open Profits"
                   stat={currencyFormatter.format(data.openOptionsProfit)}
-                  textColor={getColor(data.openOptionsProfit)}
+                  textColor={getStatColor(data.openOptionsProfit)}
                 />
                 <MetricCard
                   label="Realised Profits"
                   stat={currencyFormatter.format(data.realisedOptionsProfit)}
-                  textColor={getColor(data.realisedOptionsProfit)}
+                  textColor={getStatColor(data.realisedOptionsProfit)}
                 />
                 <MetricCard
                   label="Open Positions"
@@ -61,12 +48,12 @@ const Dashboard = () => {
                 <MetricCard
                   label="Open Profits"
                   stat={currencyFormatter.format(data.openStocksProfit)}
-                  textColor={getColor(data.openStocksProfit)}
+                  textColor={getStatColor(data.openStocksProfit)}
                 />
                 <MetricCard
                   label="Realised Profits"
                   stat={currencyFormatter.format(data.realisedStocksProfit)}
-                  textColor={getColor(data.realisedStocksProfit)}
+                  textColor={getStatColor(data.realisedStocksProfit)}
                 />
                 <MetricCard
                   label="Open Positions"
