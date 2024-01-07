@@ -46,10 +46,10 @@ export class AccountService {
     const {
       openOptionsProfit,
       realisedOptionsProfit,
-      numberOfOpenPutTrades,
-      numberOfClosedPutTrades,
-      numberOfOpenCallTrades,
-      numberOfClosedCallTrades,
+      numOpenPuts,
+      numClosedPuts,
+      numOpenCalls,
+      numClosedCalls,
     } = this.optionTradesService.computeOptionTradesStats(allOptionTrades)
 
     const allStockTrades = await this.stockTradesService.getAllStockTrades(
@@ -59,21 +59,21 @@ export class AccountService {
     const {
       openStocksProfit,
       realisedStocksProfit,
-      numberOfOpenStockTrades,
-      numberOfClosedStockTrades,
+      numOpenStockTrades,
+      numClosedStockTrades,
     } = this.stockTradesService.computeStockTradesStats(allStockTrades)
 
     // Update account
     account.openOptionsProfit = openOptionsProfit
     account.realisedOptionsProfit = realisedOptionsProfit
-    account.numberOfOpenPutTrades = numberOfOpenPutTrades
-    account.numberOfClosedPutTrades = numberOfClosedPutTrades
-    account.numberOfOpenCallTrades = numberOfOpenCallTrades
-    account.numberOfClosedCallTrades = numberOfClosedCallTrades
+    account.numOpenPuts = numOpenPuts
+    account.numClosedPuts = numClosedPuts
+    account.numOpenCalls = numOpenCalls
+    account.numClosedCalls = numClosedCalls
     account.openStocksProfit = openStocksProfit
     account.realisedStocksProfit = realisedStocksProfit
-    account.numberOfOpenStockTrades = numberOfOpenStockTrades
-    account.numberOfClosedStockTrades = numberOfClosedStockTrades
+    account.numOpenStockTrades = numOpenStockTrades
+    account.numClosedStockTrades = numClosedStockTrades
 
     await this.accountRepo.save(account)
   }
@@ -140,10 +140,10 @@ export class AccountService {
       const {
         openOptionsProfit,
         realisedOptionsProfit,
-        numberOfOpenPutTrades,
-        numberOfClosedPutTrades,
-        numberOfOpenCallTrades,
-        numberOfClosedCallTrades,
+        numOpenPuts,
+        numClosedPuts,
+        numOpenCalls,
+        numClosedCalls,
       } = this.optionTradesService.computeOptionTradesStats(
         tickers[ticker].options,
       )
@@ -151,8 +151,8 @@ export class AccountService {
       const {
         openStocksProfit,
         realisedStocksProfit,
-        numberOfOpenStockTrades,
-        numberOfClosedStockTrades,
+        numOpenStockTrades,
+        numClosedStockTrades,
       } = this.stockTradesService.computeStockTradesStats(
         tickers[ticker].stocks,
       )
@@ -161,14 +161,14 @@ export class AccountService {
         ticker,
         openOptionsProfit,
         realisedOptionsProfit,
-        numberOfOpenPutTrades,
-        numberOfClosedPutTrades,
-        numberOfOpenCallTrades,
-        numberOfClosedCallTrades,
+        numOpenPuts,
+        numClosedPuts,
+        numOpenCalls,
+        numClosedCalls,
         openStocksProfit,
         realisedStocksProfit,
-        numberOfOpenStockTrades,
-        numberOfClosedStockTrades,
+        numOpenStockTrades,
+        numClosedStockTrades,
       })
     }
 

@@ -4,6 +4,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   HStack,
+  SimpleGrid,
   Spacer,
   Tab,
   TabList,
@@ -27,6 +28,8 @@ import { OptionTradeDetail } from '../../../../../api/src/dto/option-trade.dto'
 import { StockTradeDetail } from '../../../../../api/src/dto/stock-trade.dto'
 import { UpdateStrategyRequestDto } from '../../../../../api/src/dto/strategy.dto'
 import { getStrategy, updateStrategy } from '../../../api/strategies'
+import InfoCard from '../../../components/InfoCard'
+import { currencyFormatter } from '../../../utils'
 import AddLogMenu from './AddLogMenu'
 import { optionTradesTableColumns, stockTradesTableColumns } from './columnDefs'
 import DeleteStrategyModal from './DeleteStrategyModal'
@@ -165,7 +168,7 @@ const StrategyDetailPage = () => {
             </BreadcrumbItem>
             <BreadcrumbItem isCurrentPage>
               <BreadcrumbLink color="gray.600" href="#">
-                Current Strategy
+                Strategy
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
@@ -187,6 +190,42 @@ const StrategyDetailPage = () => {
               />
             )}
           </Box>
+          <SimpleGrid mt={4} width="100%" columns={3} spacing={6}>
+            <InfoCard
+              label="Realised Profit"
+              content={currencyFormatter.format(
+                data.realisedOptionsProfit + data.realisedStocksProfit,
+              )}
+              isNumeric
+            />
+            <InfoCard
+              label="Closed Options"
+              content={(data.numClosedPuts + data.numClosedCalls).toString()}
+              isNumeric
+            />
+            <InfoCard
+              label="Closed Stock Trades"
+              content={data.numClosedStockTrades.toString()}
+              isNumeric
+            />
+            <InfoCard
+              label="Open Profit"
+              content={currencyFormatter.format(
+                data.openOptionsProfit + data.openStocksProfit,
+              )}
+              isNumeric
+            />
+            <InfoCard
+              label="Open Options"
+              content={(data.numOpenPuts + data.numOpenCalls).toString()}
+              isNumeric
+            />
+            <InfoCard
+              label="Open Stock Trades"
+              content={data.numOpenStockTrades.toString()}
+              isNumeric
+            />
+          </SimpleGrid>
           <Box width="100%" mt={8}>
             <Tabs
               width="100%"

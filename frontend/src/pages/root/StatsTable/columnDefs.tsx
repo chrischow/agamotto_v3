@@ -75,11 +75,11 @@ export const strategiesTableColumns = [
       columnHelper.group({
         header: 'Put Trades',
         columns: [
-          columnHelper.accessor('numberOfOpenPutTrades', {
+          columnHelper.accessor('numOpenPuts', {
             cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
             header: 'Open',
           }),
-          columnHelper.accessor('numberOfClosedPutTrades', {
+          columnHelper.accessor('numClosedPuts', {
             cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
             header: 'Closed',
           }),
@@ -88,11 +88,11 @@ export const strategiesTableColumns = [
       columnHelper.group({
         header: 'Call Trades',
         columns: [
-          columnHelper.accessor('numberOfOpenCallTrades', {
+          columnHelper.accessor('numOpenCalls', {
             cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
             header: 'Open',
           }),
-          columnHelper.accessor('numberOfClosedCallTrades', {
+          columnHelper.accessor('numClosedCalls', {
             cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
             header: 'Closed',
           }),
@@ -127,11 +127,11 @@ export const strategiesTableColumns = [
       columnHelper.group({
         header: 'Trades',
         columns: [
-          columnHelper.accessor('numberOfOpenStockTrades', {
+          columnHelper.accessor('numOpenStockTrades', {
             cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
             header: 'Open',
           }),
-          columnHelper.accessor('numberOfClosedStockTrades', {
+          columnHelper.accessor('numClosedStockTrades', {
             cell: (info) => <Text fontFamily="mono">{info.getValue()}</Text>,
             header: 'Closed',
           }),

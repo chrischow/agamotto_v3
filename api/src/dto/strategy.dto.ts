@@ -33,7 +33,8 @@ export interface StrategySummaryResponse {
   description?: string
   numOptionTrades: number
   numStockTrades: number
-  totalProfit: number
+  totalOpenProfit: number
+  totalRealisedProfit: number
   executedAt: string
   lastActivity: string
 }
@@ -45,6 +46,16 @@ export interface GetAllStrategiesResponseDto {
 export interface GetStrategyResponseDto {
   id: string
   name: string
+  openOptionsProfit: number
+  realisedOptionsProfit: number
+  openStocksProfit: number
+  realisedStocksProfit: number
+  numOpenPuts: number
+  numClosedPuts: number
+  numOpenCalls: number
+  numClosedCalls: number
+  numOpenStockTrades: number
+  numClosedStockTrades: number
   description?: string
   optionTrades: OptionTradeDetail[]
   stockTrades: StockTradeDetail[]

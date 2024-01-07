@@ -33,22 +33,22 @@ export class Account {
   openStocksProfit: number
 
   @Column({ type: 'int', default: 0 })
-  numberOfOpenPutTrades: number
+  numOpenPuts: number
 
   @Column({ type: 'int', default: 0 })
-  numberOfClosedPutTrades: number
+  numClosedPuts: number
 
   @Column({ type: 'int', default: 0 })
-  numberOfOpenCallTrades: number
+  numOpenCalls: number
 
   @Column({ type: 'int', default: 0 })
-  numberOfClosedCallTrades: number
+  numClosedCalls: number
 
   @Column({ type: 'int', default: 0 })
-  numberOfOpenStockTrades: number
+  numOpenStockTrades: number
 
   @Column({ type: 'int', default: 0 })
-  numberOfClosedStockTrades: number
+  numClosedStockTrades: number
 
   @CreateDateColumn({ type: 'timestamptz', select: false })
   createdAt: Date

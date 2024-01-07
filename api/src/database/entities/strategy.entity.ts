@@ -42,6 +42,36 @@ export class Strategy {
   @Column({ type: 'uuid' })
   userId: string
 
+  @Column({ type: 'float', default: 0 })
+  openOptionsProfit: number
+
+  @Column({ type: 'float', default: 0 })
+  realisedOptionsProfit: number
+
+  @Column({ type: 'float', default: 0 })
+  openStocksProfit: number
+
+  @Column({ type: 'float', default: 0 })
+  realisedStocksProfit: number
+
+  @Column({ type: 'int', default: 0 })
+  numOpenPuts: number
+
+  @Column({ type: 'int', default: 0 })
+  numClosedPuts: number
+
+  @Column({ type: 'int', default: 0 })
+  numOpenCalls: number
+
+  @Column({ type: 'int', default: 0 })
+  numClosedCalls: number
+
+  @Column({ type: 'int', default: 0 })
+  numOpenStockTrades: number
+
+  @Column({ type: 'int', default: 0 })
+  numClosedStockTrades: number
+
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date
 

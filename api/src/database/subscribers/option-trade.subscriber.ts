@@ -7,9 +7,12 @@ import {
   UpdateEvent,
 } from 'typeorm'
 
-import { Account } from '../entities/account.entity'
 import { OptionTrade } from '../entities/option-trade.entity'
-import { getUserId, recomputeAndSaveAccountStats } from './utils'
+import {
+  getParentStrategyAndUserId,
+  recomputeAndSaveAccountStats,
+  recomputeAndSaveStrategyStats,
+} from './utils'
 
 @EventSubscriber()
 export class OptionTradeSubscriber
@@ -21,36 +24,56 @@ export class OptionTradeSubscriber
   async afterInsert(event: InsertEvent<OptionTrade>): Promise<void> {
     // Retrieve the account
     const { manager, entity } = event
-    const userId = await getUserId(entity.id, manager, 'option')
+    const { userId, strategyId } = await getParentStrategyAndUserId(
+      entity.id,
+      manager,
+      'option',
+    )
 
     // Re-compute stats and save
     await recomputeAndSaveAccountStats(userId, manager)
+    await recomputeAndSaveStrategyStats(strategyId, manager)
   }
 
   async afterUpdate(event: UpdateEvent<OptionTrade>): Promise<void> {
     // Retrieve the account
     const { manager, entity } = event
-    const userId = await getUserId(entity.id as string, manager, 'option')
+    const { userId, strategyId } = await getParentStrategyAndUserId(
+      entity.id as string,
+      manager,
+      'option',
+    )
 
     // Re-compute stats and save
     await recomputeAndSaveAccountStats(userId, manager)
+    await recomputeAndSaveStrategyStats(strategyId, manager)
   }
 
-  async afterRemove(event: RemoveEvent<OptionTrade>): Promise<void> {
+  async beforeRemove(event: RemoveEvent<OptionTrade>): Promise<void> {
     // Retrieve the account
     const { manager, entity } = event
-    const userId = await getUserId(entity.id, manager, 'option')
+    const { userId, strategyId } = await getParentStrategyAndUserId(
+      entity.id,
+      manager,
+      'option',
+    )
 
     // Re-compute stats and save
     await recomputeAndSaveAccountStats(userId, manager)
+    await recomputeAndSaveStrategyStats(strategyId, manager)
   }
 
-  async afterSoftRemove(event: SoftRemoveEvent<OptionTrade>): Promise<void> {
+  async beforeSoftRemove(event: SoftRemoveEvent<OptionTrade>): Promise<void> {
     // Retrieve the account
     const { manager, entity } = event
-    const userId = await getUserId(entity.id, manager, 'option')
+    const { userId, strategyId } = await getParentStrategyAndUserId(
+      entity.id,
+      manager,
+      'option',
+    )
 
     // Re-compute stats and save
     await recomputeAndSaveAccountStats(userId, manager)
+    await recomputeAndSaveStrategyStats(strategyId, manager)
   }
 }

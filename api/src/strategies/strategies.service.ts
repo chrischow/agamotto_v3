@@ -9,13 +9,26 @@ import {
   GetStrategyResponseDto,
   UpdateStrategyRequestDto,
 } from '../dto/strategy.dto'
+import { OptionTradesService } from '../option-trades/option-trades.service'
+import { StockTradesService } from '../stock-trades/stock-trades.service'
 
 @Injectable()
 export class StrategiesService {
   constructor(
     @InjectRepository(Strategy)
     private readonly strategyRepo: Repository<Strategy>,
+    private readonly optionTradesService: OptionTradesService,
+    private readonly stockTradesService: StockTradesService,
   ) {}
+  async getAllStrategiesWithTrades(userId: string) {
+    return await this.strategyRepo.find({
+      where: { userId },
+      relations: {
+        optionTrades: true,
+        stockTrades: true,
+      },
+    })
+  }
 
   async getAllStrategies(userId: string): Promise<GetAllStrategiesResponseDto> {
     const allStrategies = await this.strategyRepo.find({
@@ -28,6 +41,10 @@ export class StrategiesService {
         id: true,
         name: true,
         description: true,
+        openOptionsProfit: true,
+        openStocksProfit: true,
+        realisedOptionsProfit: true,
+        realisedStocksProfit: true,
         optionTrades: {
           id: true,
           openPrice: true,
@@ -50,24 +67,23 @@ export class StrategiesService {
     })
 
     const strategies = allStrategies.map((strategy) => {
-      const { id, name, description, optionTrades, stockTrades } = strategy
+      const {
+        id,
+        name,
+        description,
+        optionTrades,
+        stockTrades,
+        openOptionsProfit,
+        openStocksProfit,
+        realisedOptionsProfit,
+        realisedStocksProfit,
+      } = strategy
+
       let executedAt: Date = undefined
       let lastActivity: Date = undefined
-      let totalProfit = 0
+      // let totalProfit = 0
       for (const optionTrade of optionTrades) {
-        const {
-          closeDate,
-          closePrice,
-          openPrice,
-          quantity,
-          position,
-          openDate,
-        } = optionTrade
-        const positionMultiplier = position === 'LONG' ? 1 : -1
-        if (closeDate != null && closePrice != null) {
-          totalProfit +=
-            (closePrice - openPrice) * positionMultiplier * quantity * 100
-        }
+        const { closeDate, openDate } = optionTrade
 
         // Update executed date
         if (!executedAt) {
@@ -91,19 +107,7 @@ export class StrategiesService {
       }
 
       for (const stockTrade of stockTrades) {
-        const {
-          closeDate,
-          closePrice,
-          openPrice,
-          quantity,
-          position,
-          openDate,
-        } = stockTrade
-        const positionMultiplier = position === 'LONG' ? 1 : -1
-        if (closeDate != null && closePrice != null) {
-          totalProfit +=
-            (closePrice - openPrice) * positionMultiplier * quantity
-        }
+        const { closeDate, openDate } = stockTrade
         // Update executed date
         if (!executedAt) {
           executedAt = openDate
@@ -131,7 +135,8 @@ export class StrategiesService {
         description,
         numOptionTrades: optionTrades.length,
         numStockTrades: stockTrades.length,
-        totalProfit,
+        totalOpenProfit: openOptionsProfit + openStocksProfit,
+        totalRealisedProfit: realisedOptionsProfit + realisedStocksProfit,
         executedAt: executedAt.toISOString(),
         lastActivity: lastActivity.toISOString(),
       }
@@ -160,6 +165,16 @@ export class StrategiesService {
         id: true,
         name: true,
         description: true,
+        openOptionsProfit: true,
+        realisedOptionsProfit: true,
+        openStocksProfit: true,
+        realisedStocksProfit: true,
+        numOpenPuts: true,
+        numClosedPuts: true,
+        numOpenCalls: true,
+        numClosedCalls: true,
+        numOpenStockTrades: true,
+        numClosedStockTrades: true,
       },
       order: {
         optionTrades: {
@@ -195,5 +210,43 @@ export class StrategiesService {
     })
 
     await this.strategyRepo.softRemove(strategy)
+  }
+
+  async updateAllStrategyStats(userId: string) {
+    const strategies = await this.getAllStrategiesWithTrades(userId)
+    for (const strategy of strategies) {
+      const {
+        openOptionsProfit,
+        realisedOptionsProfit,
+        numOpenPuts,
+        numClosedPuts,
+        numOpenCalls,
+        numClosedCalls,
+      } = this.optionTradesService.computeOptionTradesStats(
+        strategy.optionTrades,
+      )
+
+      const {
+        openStocksProfit,
+        realisedStocksProfit,
+        numOpenStockTrades,
+        numClosedStockTrades,
+      } = this.stockTradesService.computeStockTradesStats(strategy.stockTrades)
+
+      strategy.openOptionsProfit = Math.round(openOptionsProfit * 100) / 100
+      strategy.realisedOptionsProfit =
+        Math.round(realisedOptionsProfit * 100) / 100
+      strategy.openStocksProfit = Math.round(openStocksProfit * 100) / 100
+      strategy.realisedStocksProfit =
+        Math.round(realisedStocksProfit * 100) / 100
+      strategy.numOpenPuts = numOpenPuts
+      strategy.numClosedPuts = numClosedPuts
+      strategy.numOpenCalls = numOpenCalls
+      strategy.numClosedCalls = numClosedCalls
+      strategy.numOpenStockTrades = numOpenStockTrades
+      strategy.numClosedStockTrades = numClosedStockTrades
+
+      await this.strategyRepo.save(strategy)
+    }
   }
 }

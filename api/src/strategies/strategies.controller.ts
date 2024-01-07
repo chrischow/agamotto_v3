@@ -272,4 +272,10 @@ export class StrategiesController {
       throw new InternalServerErrorException()
     }
   }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('update')
+  async updateAllStrategyStats(@SessionUser() user: User) {
+    await this.strategiesService.updateAllStrategyStats(user.id)
+  }
 }

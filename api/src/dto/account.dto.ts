@@ -1,15 +1,18 @@
-export interface GetAccountDetailsResponseDto {
-  id: string
+export interface Stats {
   openOptionsProfit: number
   realisedOptionsProfit: number
   openStocksProfit: number
   realisedStocksProfit: number
-  numberOfOpenPutTrades: number
-  numberOfClosedPutTrades: number
-  numberOfOpenCallTrades: number
-  numberOfClosedCallTrades: number
-  numberOfOpenStockTrades: number
-  numberOfClosedStockTrades: number
+  numOpenPuts: number
+  numClosedPuts: number
+  numOpenCalls: number
+  numClosedCalls: number
+  numOpenStockTrades: number
+  numClosedStockTrades: number
+}
+
+export interface GetAccountDetailsResponseDto extends Stats {
+  id: string
   tradeStats: {
     tickers: StatsByTicker[]
     profitHistory: ProfitHistory
@@ -20,18 +23,8 @@ export interface ProfitHistory {
   [key: string]: number
 }
 
-export interface StatsByTicker {
+export interface StatsByTicker extends Stats {
   ticker: string
-  openOptionsProfit: number
-  realisedOptionsProfit: number
-  openStocksProfit: number
-  realisedStocksProfit: number
-  numberOfOpenPutTrades: number
-  numberOfClosedPutTrades: number
-  numberOfOpenCallTrades: number
-  numberOfClosedCallTrades: number
-  numberOfOpenStockTrades: number
-  numberOfClosedStockTrades: number
 }
 
 export interface TradeStats {

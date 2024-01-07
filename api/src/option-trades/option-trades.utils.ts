@@ -4,10 +4,10 @@ export const computeOptionTradesStats = (trades: OptionTrade[]) => {
   const stats = {
     openOptionsProfit: 0,
     realisedOptionsProfit: 0,
-    numberOfOpenPutTrades: 0,
-    numberOfClosedPutTrades: 0,
-    numberOfOpenCallTrades: 0,
-    numberOfClosedCallTrades: 0,
+    numOpenPuts: 0,
+    numClosedPuts: 0,
+    numOpenCalls: 0,
+    numClosedCalls: 0,
   }
 
   for (const trade of trades) {
@@ -17,9 +17,9 @@ export const computeOptionTradesStats = (trades: OptionTrade[]) => {
       stats.openOptionsProfit -=
         trade.openPrice * trade.quantity * 100 * positionMultiplier
       if (isPutOption) {
-        stats.numberOfOpenPutTrades += 1
+        stats.numOpenPuts += 1
       } else {
-        stats.numberOfOpenCallTrades += 1
+        stats.numOpenCalls += 1
       }
     } else {
       stats.realisedOptionsProfit +=
@@ -28,9 +28,9 @@ export const computeOptionTradesStats = (trades: OptionTrade[]) => {
         100 *
         positionMultiplier
       if (isPutOption) {
-        stats.numberOfClosedPutTrades += 1
+        stats.numClosedPuts += 1
       } else {
-        stats.numberOfClosedCallTrades += 1
+        stats.numClosedCalls += 1
       }
     }
   }
