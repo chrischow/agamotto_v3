@@ -49,13 +49,41 @@ const ProfitHistoryChart = ({
   profitHistory: ProfitHistory
 }) => {
   const labels = Object.keys(profitHistory)
+  const realisedProfitsOptions: number[] = []
+  const realisedProfitsStocks: number[] = []
+  const openProfitsOptions: number[] = []
+  const openProfitsStocks: number[] = []
+
+  for (const profits of Object.values(profitHistory)) {
+    realisedProfitsOptions.push(profits.realised.options)
+    realisedProfitsStocks.push(profits.realised.stocks)
+    openProfitsOptions.push(profits.open.options)
+    openProfitsStocks.push(profits.open.stocks)
+  }
   const data = {
     labels,
     datasets: [
       {
-        label: 'Total Profits',
-        data: Object.values(profitHistory),
+        label: 'Realised - Options',
+        data: realisedProfitsOptions,
         backgroundColor: 'rgba(128, 90, 213, 0.6)',
+      },
+      {
+        label: 'Open - Options',
+        data: openProfitsOptions,
+        backgroundColor: 'rgba(49, 151, 149, 0.6)',
+      },
+      {
+        label: 'Realised - Stocks',
+        data: realisedProfitsStocks,
+        backgroundColor: 'rgba(213, 63, 140, 0.6)',
+        hidden: true,
+      },
+      {
+        label: 'Open - Stocks',
+        data: openProfitsStocks,
+        backgroundColor: 'rgba(56, 161, 105, 0.6)',
+        hidden: true,
       },
     ],
   }

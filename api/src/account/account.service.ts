@@ -9,6 +9,7 @@ import { Account } from '../database/entities/account.entity'
 import { User } from '../database/entities/user.entity'
 import {
   GetAccountDetailsResponseDto,
+  ProfitHistory,
   StatsByTicker,
   TradeStats,
 } from '../dto/account.dto'
@@ -86,14 +87,21 @@ export class AccountService {
       userId,
     )
 
-    const profitHistory: { [key: string]: number } = {}
+    const profitHistory: ProfitHistory = {}
 
     const tickers: {
       [key: string]: { options: OptionTrade[]; stocks: StockTrade[] }
     } = {}
     for (const optionTrade of allOptionTrades) {
-      const { ticker, closeDate, closePrice, openPrice, quantity, position } =
-        optionTrade
+      const {
+        ticker,
+        openDate,
+        closeDate,
+        closePrice,
+        openPrice,
+        quantity,
+        position,
+      } = optionTrade
       const positionMultiplier = position === 'LONG' ? 1 : -1
       // Tickers
       if (!(ticker in tickers)) {
@@ -103,19 +111,51 @@ export class AccountService {
 
       // History
       if (closePrice != null && closeDate != null) {
+        const dateStr = `${format(closeDate, 'yyyy-MM')}-01`
         const profit =
           (closePrice - openPrice) * positionMultiplier * quantity * 100
-        const dateStr = `${format(closeDate, 'yyyy-MM')}-01`
         if (!(dateStr in profitHistory)) {
-          profitHistory[dateStr] = 0
+          profitHistory[dateStr] = {
+            realised: {
+              options: 0,
+              stocks: 0,
+            },
+            open: {
+              options: 0,
+              stocks: 0,
+            },
+          }
         }
-        profitHistory[dateStr] += profit
+        profitHistory[dateStr].realised.options += profit
+      } else {
+        const dateStr = `${format(openDate, 'yyyy-MM')}-01`
+        const profit = (0 - openPrice) * positionMultiplier * quantity * 100
+        if (!(dateStr in profitHistory)) {
+          profitHistory[dateStr] = {
+            realised: {
+              options: 0,
+              stocks: 0,
+            },
+            open: {
+              options: 0,
+              stocks: 0,
+            },
+          }
+        }
+        profitHistory[dateStr].open.options += profit
       }
     }
 
     for (const stockTrade of allStockTrades) {
-      const { ticker, closeDate, closePrice, openPrice, quantity, position } =
-        stockTrade
+      const {
+        ticker,
+        openDate,
+        closeDate,
+        closePrice,
+        openPrice,
+        quantity,
+        position,
+      } = stockTrade
       const positionMultiplier = position === 'LONG' ? 1 : -1
       // Tickers
       if (!(ticker in tickers)) {
@@ -128,9 +168,34 @@ export class AccountService {
         const profit = (closePrice - openPrice) * positionMultiplier * quantity
         const dateStr = `${format(closeDate, 'yyyy-MM')}-01`
         if (!(dateStr in profitHistory)) {
-          profitHistory[dateStr] = 0
+          profitHistory[dateStr] = {
+            realised: {
+              options: 0,
+              stocks: 0,
+            },
+            open: {
+              options: 0,
+              stocks: 0,
+            },
+          }
         }
-        profitHistory[dateStr] += profit
+        profitHistory[dateStr].realised.stocks += profit
+      } else {
+        const dateStr = `${format(openDate, 'yyyy-MM')}-01`
+        const profit = (0 - openPrice) * positionMultiplier * quantity
+        if (!(dateStr in profitHistory)) {
+          profitHistory[dateStr] = {
+            realised: {
+              options: 0,
+              stocks: 0,
+            },
+            open: {
+              options: 0,
+              stocks: 0,
+            },
+          }
+        }
+        profitHistory[dateStr].open.stocks += profit
       }
     }
 

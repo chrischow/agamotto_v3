@@ -20,7 +20,16 @@ export interface GetAccountDetailsResponseDto extends Stats {
 }
 
 export interface ProfitHistory {
-  [key: string]: number
+  [key: string]: {
+    realised: {
+      options: number
+      stocks: number
+    }
+    open: {
+      options: number
+      stocks: number
+    }
+  }
 }
 
 export interface StatsByTicker extends Stats {
